@@ -18,8 +18,8 @@ import { Summary } from '../../models/summary-model';
 @Component({
   selector: 'app-loading',
   standalone: true,
-  templateUrl: './Loading.html',
-  styleUrl: './Loading.css'
+  templateUrl: './loading.html',
+  styleUrl: './loading.css'
 })
 export class Loading implements OnInit {
 
