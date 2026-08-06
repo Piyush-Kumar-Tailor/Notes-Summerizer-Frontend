@@ -1,0 +1,145 @@
+<!-- ================================================= -->
+<!-- Premium AI Loading -->
+<!-- ================================================= -->
+
+@if (loading()) {
+
+<app-loading></app-loading>
+
+}
+
+<!-- ================================================= -->
+<!-- Error -->
+<!-- ================================================= -->
+
+@else if (error()) {
+
+<section
+    class="mx-auto mt-16 max-w-3xl rounded-3xl border border-red-200 bg-red-50 p-10 text-center shadow-lg">
+
+    <div class="text-6xl">
+        ❌
+    </div>
+
+    <h2 class="mt-6 text-3xl font-bold text-red-700">
+        Something went wrong
+    </h2>
+
+    <p class="mt-4 text-slate-600">
+        {{ error() }}
+    </p>
+
+</section>
+
+}
+
+<!-- ================================================= -->
+<!-- Summary -->
+<!-- ================================================= -->
+
+@else if(summary()) {
+
+<div
+    class="mx-auto max-w-7xl space-y-10 px-6 py-10 fade-in">
+
+    <!-- Hero -->
+
+    @if(showHero()){
+
+    <div class="fade-up summary-card">
+
+        <app-summary-hero
+            [summary]="summary()!">
+        </app-summary-hero>
+
+    </div>
+
+    }
+
+    <!-- Summary -->
+
+    @if(showSummary()){
+
+    <div class="fade-up summary-card">
+
+        <app-summary-content
+            [summary]="summary()?.summary">
+        </app-summary-content>
+
+    </div>
+
+    }
+
+    <!-- Key Points -->
+
+    @if(showKeyPoints()){
+
+    <div class="fade-up summary-card">
+
+        <app-key-points
+            [keyPoints]="summary()!.keyPoints">
+        </app-key-points>
+
+    </div>
+
+    }
+
+    <!-- Flashcards -->
+
+    @if(showFlashcards()){
+
+    <div class="fade-up summary-card">
+
+        <app-flashcards
+            [flashcards]="summary()!.flashcards">
+        </app-flashcards>
+
+    </div>
+
+    }
+
+    <!-- Quiz -->
+
+    @if(showQuiz()){
+
+    <div class="fade-up summary-card">
+
+        <app-quiz
+            [quiz]="summary()!.quiz">
+        </app-quiz>
+
+    </div>
+
+    }
+
+    <!-- Interview Questions -->
+
+    @if(showInterview()){
+
+    <div class="fade-up summary-card">
+
+        <app-interview-questions
+            [interviewQuestions]="summary()!.interviewQuestions">
+        </app-interview-questions>
+
+    </div>
+
+    }
+
+    <!-- Export -->
+
+    @if(showExport()){
+
+    <div class="fade-up summary-card">
+
+        <app-export
+            [summary]="summary()!">
+        </app-export>
+
+    </div>
+
+    }
+
+</div>
+
+}

@@ -1,0 +1,145 @@
+<div class="grid gap-10 p-8 lg:grid-cols-2">
+
+    <!-- Left -->
+
+    <div>
+
+        <span
+            class="rounded-full bg-blue-100 px-4 py-2 text-sm font-semibold text-blue-600">
+
+            📝 Smart Notes
+
+        </span>
+
+        <h3
+            class="mt-6 text-3xl font-bold text-slate-900">
+
+            Automatically Create Smart Revision Notes
+
+        </h3>
+
+        <p
+            class="mt-5 leading-8 text-slate-600">
+
+            AI scans your PDF and extracts only the most valuable
+            information. Long paragraphs become structured,
+            concise notes that are much easier to revise.
+
+        </p>
+
+        <div
+            class="mt-8 space-y-4">
+
+            @for(item of features; track item){
+
+            <div
+                class="flex gap-3">
+
+                <div
+                    class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-blue-500 text-sm text-white">
+
+                    ✓
+
+                </div>
+
+                <p
+                    class="text-slate-700">
+
+                    {{ item }}
+
+                </p>
+
+            </div>
+
+            }
+
+        </div>
+
+    </div>
+
+    <!-- Right -->
+
+    <div
+        class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+
+        <h4
+            class="text-xl font-bold text-slate-900">
+
+            Notes Generated
+
+        </h4>
+
+        <div
+            class="mt-6 space-y-4">
+
+            @for(type of noteTypes; track type; let i = $index){
+
+            <div
+                class="flex items-center gap-4 rounded-xl bg-slate-50 p-4">
+
+                <div
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-linear-to-r from-orange-500 to-blue-600 font-bold text-white">
+
+                    {{ i + 1 }}
+
+                </div>
+
+                <div>
+
+                    <h5
+                        class="font-semibold text-slate-900">
+
+                        {{ type }}
+
+                    </h5>
+
+                    <p
+                        class="text-sm text-slate-500">
+
+                        AI generated automatically
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            }
+
+        </div>
+
+    </div>
+
+</div>
+
+<div
+    class="border-t border-slate-200 bg-linear-to-r from-blue-50 via-white to-orange-50 p-8">
+
+    <h4
+        class="text-2xl font-bold text-slate-900">
+
+        Sample Notes
+
+    </h4>
+
+    <div
+        class="mt-6 rounded-2xl border border-blue-100 bg-white p-6">
+
+        <ul
+            class="space-y-4 text-slate-700">
+
+            <li>• Artificial Intelligence enables machines to perform human-like tasks.</li>
+
+            <li>• Machine Learning is a subset of AI.</li>
+
+            <li>• Deep Learning uses Neural Networks.</li>
+
+            <li>• NLP focuses on understanding human language.</li>
+
+            <li>• Computer Vision processes images and videos.</li>
+
+        </ul>
+
+    </div>
+
+</div>

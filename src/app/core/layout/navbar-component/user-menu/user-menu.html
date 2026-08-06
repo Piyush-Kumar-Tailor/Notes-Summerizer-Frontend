@@ -1,0 +1,291 @@
+<div class="relative">
+
+    <!-- ===================================================== -->
+    <!-- User Button -->
+    <!-- ===================================================== -->
+
+    <button
+
+        type="button"
+
+        (click)="toggleMenu()"
+
+        class="group flex items-center gap-3 rounded-2xl border border-white/30 bg-white/80 px-3 py-2 shadow-[0_10px_35px_rgba(15,23,42,.08)] backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 hover:border-orange-300 hover:shadow-[0_15px_45px_rgba(249,115,22,.18)]">
+
+        <!-- Avatar -->
+
+        <div class="relative">
+
+            <div
+                class="flex h-11 w-11 items-center justify-center rounded-2xl bg-linear-to-br from-orange-500 via-orange-400 to-blue-600 text-base font-bold text-white shadow-lg">
+
+                {{ userInitial() }}
+
+            </div>
+
+            <!-- Online Indicator -->
+
+            <span
+                class="absolute -bottom-0.5 -right-0.5 h-3.5 w-3.5 rounded-full border-2 border-white bg-emerald-500">
+            </span>
+
+        </div>
+
+        <!-- User -->
+
+        <div class="hidden min-w-0 text-left lg:block">
+
+            @if(loading()){
+
+            <div>
+
+                <div class="h-3 w-24 animate-pulse rounded bg-slate-200"></div>
+
+                <div class="mt-2 h-2 w-32 animate-pulse rounded bg-slate-100"></div>
+
+            </div>
+
+            }
+
+            @else{
+
+            <h3 class="truncate text-sm font-semibold text-slate-900">
+
+                {{ user()?.fullName }}
+
+            </h3>
+
+            <p class="truncate text-xs text-slate-500">
+
+                {{ user()?.email }}
+
+            </p>
+
+            }
+
+        </div>
+
+        <!-- Arrow -->
+
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5 text-slate-500 transition-all duration-300 group-hover:text-orange-500"
+            [class.rotate-180]="isOpen()"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor">
+
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"/>
+
+        </svg>
+
+    </button>
+
+    <!-- Dropdown -->
+
+    @if(isOpen()){
+
+    <div
+        class="absolute right-0 mt-4 w-80 overflow-hidden rounded-3xl border border-white/30 bg-white/90 shadow-[0_25px_80px_rgba(15,23,42,.18)] backdrop-blur-2xl">
+
+        <!-- Background Glow -->
+
+        <div
+            class="pointer-events-none absolute -right-10 -top-10 h-44 w-44 rounded-full bg-orange-300/20 blur-3xl">
+        </div>
+
+        <!-- Header -->
+
+        <div
+            class="relative border-b border-slate-200/80 bg-linear-to-r from-orange-500 via-orange-400 to-blue-600 p-6 text-white">
+
+            <div class="flex items-center gap-4">
+
+                <div
+                    class="flex h-16 w-16 items-center justify-center rounded-3xl bg-white/15 text-2xl font-bold backdrop-blur">
+
+                    {{ userInitial() }}
+
+                </div>
+
+                <div class="min-w-0">
+
+                    <h3 class="truncate text-lg font-bold">
+
+                        {{ user()?.fullName }}
+
+                    </h3>
+
+                    <p class="truncate text-sm text-white/90">
+
+                        {{ user()?.email }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- Menu -->
+
+        <div class="p-3">
+
+            <a
+
+                routerLink="/profile"
+
+                (click)="closeMenu()"
+
+                class="group flex items-center gap-4 rounded-2xl px-4 py-3 text-slate-700 transition-all duration-200 hover:bg-orange-50">
+
+                <div
+                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-100 text-lg">
+
+                    👤
+
+                </div>
+
+                <div>
+
+                    <h4
+                        class="font-semibold group-hover:text-orange-600">
+
+                        My Profile
+
+                    </h4>
+
+                    <p
+                        class="text-xs text-slate-500">
+
+                        View your account
+
+                    </p>
+
+                </div>
+
+            </a>
+
+            <a
+
+                routerLink="/profile/change-password"
+
+                (click)="closeMenu()"
+
+                class="group mt-2 flex items-center gap-4 rounded-2xl px-4 py-3 text-slate-700 transition-all duration-200 hover:bg-orange-50">
+
+                <div
+                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-100 text-lg">
+
+                    🔐
+
+                </div>
+
+                <div>
+
+                    <h4
+                        class="font-semibold group-hover:text-orange-600">
+
+                        Change Password
+
+                    </h4>
+
+                    <p
+                        class="text-xs text-slate-500">
+
+                        Update account security
+
+                    </p>
+
+                </div>
+
+            </a>
+
+            <a
+
+                routerLink="/history"
+
+                (click)="closeMenu()"
+
+                class="group mt-2 flex items-center gap-4 rounded-2xl px-4 py-3 text-slate-700 transition-all duration-200 hover:bg-orange-50">
+
+                <div
+                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-orange-100 text-lg">
+
+                    📄
+
+                </div>
+
+                <div>
+
+                    <h4
+                        class="font-semibold group-hover:text-orange-600">
+
+                        My History
+
+                    </h4>
+
+                    <p
+                        class="text-xs text-slate-500">
+
+                        View generated summaries
+
+                    </p>
+
+                </div>
+
+            </a>
+
+            <!-- Divider -->
+
+            <div
+                class="my-3 border-t border-slate-200">
+            </div>
+
+            <!-- Logout -->
+
+            <button
+
+                (click)="logout()"
+
+                class="group flex w-full items-center gap-4 rounded-2xl px-4 py-3 text-left transition-all duration-200 hover:bg-red-50">
+
+                <div
+                    class="flex h-11 w-11 items-center justify-center rounded-xl bg-red-100 text-lg">
+
+                    🚪
+
+                </div>
+
+                <div>
+
+                    <h4
+                        class="font-semibold text-red-600">
+
+                        Logout
+
+                    </h4>
+
+                    <p
+                        class="text-xs text-slate-500">
+
+                        Sign out of your account
+
+                    </p>
+
+                </div>
+
+            </button>
+
+        </div>
+
+    </div>
+
+    }
+
+</div>

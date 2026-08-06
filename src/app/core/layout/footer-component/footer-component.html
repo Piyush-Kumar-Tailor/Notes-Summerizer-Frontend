@@ -1,0 +1,307 @@
+<footer
+    class="relative overflow-hidden border-t border-white/10 bg-linear-to-b from-slate-950 via-[#08111f] to-slate-950 text-slate-300">
+
+    <!-- Background -->
+
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+
+        <!-- Hero Glow -->
+
+        <div
+            class="absolute left-1/2 -top-32 h-120 w-120 -translate-x-1/2 rounded-full bg-orange-500/15 blur-[170px]">
+        </div>
+
+        <!-- Left Glow -->
+
+        <div
+            class="absolute -left-24 bottom-0 h-80 w-80 rounded-full bg-orange-400/10 blur-[150px]">
+        </div>
+
+        <!-- Right Glow -->
+
+        <div
+            class="absolute right-0 top-20 h-72 w-72 rounded-full bg-blue-500/10 blur-[170px]">
+        </div>
+
+        <!-- Grid -->
+
+        <div class="absolute inset-0 opacity-[0.03]">
+
+            <div
+                class="h-full w-full bg-[linear-gradient(rgba(255,255,255,.08)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.08)_1px,transparent_1px)] bg-size-[70px_70px]">
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Main -->
+
+    <div class="relative mx-auto max-w-7xl px-6 py-20 lg:px-8">
+
+        <div class="grid gap-14 lg:grid-cols-12">
+
+            <!-- Brand -->
+
+            <div class="lg:col-span-5">
+
+                <div class="flex items-center gap-4">
+
+                    <div
+                        class="flex h-14 w-14 items-center justify-center rounded-2xl bg-linear-to-r from-orange-500 to-blue-600 text-lg font-bold text-white shadow-xl">
+
+                        AI
+
+                    </div>
+
+                    <div>
+
+                        <h2
+                            class="text-2xl font-black text-white">
+
+                            AI PDF Notes
+
+                        </h2>
+
+                        <p
+                            class="text-sm text-slate-400">
+
+                            AI Learning Platform
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+                <p
+                    class="mt-7 max-w-md leading-8 text-slate-400">
+
+                    Transform books, lecture notes and research papers into
+                    intelligent summaries, flashcards, quizzes, exam preparation
+                    material and revision notes using Google's Gemini AI.
+
+                </p>
+
+                <!-- Social -->
+
+                <div
+                    class="mt-8 flex flex-wrap gap-4">
+
+                    <a
+                        href="https://github.com/Piyush-Kumar-Tailor"
+                        target="_blank"
+                        class="rounded-xl border border-white/10 bg-white/5 px-5 py-3 transition-all duration-300 hover:-translate-y-1 hover:border-orange-400 hover:bg-orange-500">
+
+                        🖥 GitHub
+
+                    </a>
+
+                    <a
+                        href="https://www.linkedin.com/in/piyush-kumar-tailor/"
+                        target="_blank"
+                        class="rounded-xl border border-white/10 bg-white/5 px-5 py-3 transition-all duration-300 hover:-translate-y-1 hover:border-blue-400 hover:bg-blue-600">
+
+                        💼 LinkedIn
+
+                    </a>
+
+                </div>
+
+            </div>
+
+            <!-- ================================================= -->
+            <!-- Links -->
+            <!-- ================================================= -->
+
+            <div class="lg:col-span-2">
+
+                <h3
+                    class="text-lg font-bold text-white">
+
+                    Navigation
+
+                </h3>
+
+                <ul
+                    class="mt-6 space-y-4">
+
+                    @for(link of quickLinks;track link.title){
+
+                    <li>
+
+                        <a
+                            [routerLink]="link.route"
+                            class="transition-all duration-300 hover:pl-2 hover:text-orange-400">
+
+                            {{link.title}}
+
+                        </a>
+
+                    </li>
+
+                    }
+
+                </ul>
+
+            </div>
+
+            <!-- ================================================= -->
+            <!-- Features -->
+            <!-- ================================================= -->
+
+            <div class="lg:col-span-2">
+
+                <h3
+                    class="text-lg font-bold text-white">
+
+                    Features
+
+                </h3>
+
+                <ul
+                    class="mt-6 space-y-4">
+
+                    @for(feature of features;track feature.title){
+
+                    <li
+                        class="transition hover:text-orange-400">
+
+                        {{feature.title}}
+
+                    </li>
+
+                    }
+
+                </ul>
+
+            </div>
+
+            <!-- ================================================= -->
+            <!-- Contact -->
+            <!-- ================================================= -->
+
+            <div class="lg:col-span-3">
+
+                <h3
+                    class="text-lg font-bold text-white">
+
+                    Contact
+
+                </h3>
+
+                <div
+                    class="mt-6 space-y-5">
+
+                    <div
+                        class="flex gap-3">
+
+                        <span>📧</span>
+
+                        <span>
+
+                            piyushkumar89b2&#64;gmail.com
+
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="flex gap-3">
+
+                        <span>📍</span>
+
+                        <span>
+
+                            Jaipur, Rajasthan, India
+
+                        </span>
+
+                    </div>
+
+                    <div
+                        class="flex gap-3">
+
+                        <span>⚡</span>
+
+                        <span>
+
+                            Powered by Gemini AI
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- CTA -->
+
+        <div
+            class="mt-20 rounded-[30px] border border-white/10 bg-linear-to-r from-orange-500/15 via-orange-400/10 to-blue-600/10 p-10 backdrop-blur-xl">
+
+            <div
+                class="flex flex-col items-center justify-between gap-8 lg:flex-row">
+
+                <div>
+
+                    <h2
+                        class="text-3xl font-black text-white">
+
+                        Ready to Learn Smarter?
+
+                    </h2>
+
+                    <p
+                        class="mt-3 max-w-xl text-slate-300">
+
+                        Upload your first PDF and let AI generate summaries,
+                        quizzes, flashcards and exam preparation material in
+                        seconds.
+
+                    </p>
+
+                </div>
+
+                <a
+                    routerLink="/upload"
+                    class="rounded-2xl bg-linear-to-r from-orange-500 to-blue-600 px-8 py-4 font-semibold text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-orange-500/30">
+
+                    Upload PDF →
+
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- Bottom -->
+
+        <div
+            class="mt-16 border-t border-white/10 pt-8">
+
+            <div
+                class="flex flex-col items-center justify-between gap-4 text-sm text-slate-400 lg:flex-row">
+
+                <p>
+
+                    © 2026 AI PDF Notes. All rights reserved.
+
+                </p>
+
+                <p>
+
+                    Built with ❤️ using Angular • Spring Boot • PostgreSQL • Gemini AI
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</footer>

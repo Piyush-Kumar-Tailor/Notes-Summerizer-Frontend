@@ -1,0 +1,14 @@
+:host{
+    display:block;
+    min-height:100vh;
+    background:#020617;
+}
+
+main{
+    position:relative;
+    isolation:isolate;
+}
+
+main::-webkit-scrollbar{
+    width:0;
+}

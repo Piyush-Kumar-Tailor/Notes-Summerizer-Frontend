@@ -1,0 +1,283 @@
+<section id="quiz"
+    class="relative mt-10 overflow-hidden rounded-4xl border border-white/50 bg-white/80 p-8 shadow-[0_25px_60px_rgba(15,23,42,.08)] backdrop-blur-xl">
+
+    <!-- Background -->
+
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+
+        <div class="absolute -right-20 -top-20 h-56 w-56 rounded-full bg-purple-300/20 blur-[130px]">
+        </div>
+
+        <div class="absolute -left-20 bottom-0 h-48 w-48 rounded-full bg-orange-300/15 blur-[130px]">
+        </div>
+
+    </div>
+
+
+    <!-- Header -->
+
+
+    <div class="relative z-10 mb-10">
+
+        <span
+            class="inline-flex items-center gap-2 rounded-full border border-purple-200 bg-purple-100 px-5 py-2 text-sm font-semibold text-purple-700">
+
+            🧠 AI Quiz Challenge
+
+        </span>
+
+        <h2 class="mt-5 text-3xl font-black text-slate-900">
+
+            Test Your Knowledge
+
+        </h2>
+
+        <p class="mt-3 max-w-3xl leading-7 text-slate-600">
+
+            Answer AI-generated questions to check your understanding of the uploaded document.
+
+        </p>
+
+    </div>
+
+
+    <!-- Quiz -->
+
+    @if (quiz.length > 0) {
+
+    <div class="space-y-6">
+
+        @for(question of quiz; track $index; let i = $index){
+
+        <div
+            class="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:border-purple-300 hover:shadow-lg">
+
+            <!-- Question -->
+
+            <div class="border-b border-slate-100 bg-linear-to-r from-purple-50 to-white px-5 py-5 sm:px-7 sm:py-6">
+
+                <div class="flex items-start gap-4">
+
+                    <div
+                        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-linear-to-r from-purple-500 to-blue-600 text-sm font-bold text-white shadow-md sm:h-12 sm:w-12 sm:text-base">
+
+                        {{ i + 1 }}
+
+                    </div>
+
+                    <div class="flex-1">
+
+                        <h3 class="text-lg font-bold leading-7 text-slate-900 sm:text-xl">
+
+                            {{ question.question }}
+
+                        </h3>
+
+                        <p class="mt-1 text-sm text-slate-500">
+
+                            Select one correct answer.
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <!-- Options -->
+
+            <!-- Options -->
+
+            <div class="space-y-3 p-5 sm:p-7">
+
+                @for(option of question.options; track $index){
+
+                <button type="button" (click)="selectAnswer(i, option)" [disabled]="submitted()"
+                    class="flex w-full items-center justify-between rounded-2xl border-2 border-slate-200 bg-white px-5 py-4 text-left transition-all duration-300 hover:border-purple-300 hover:bg-purple-50 disabled:cursor-not-allowed disabled:opacity-80"
+                    [class.border-purple-500]="selectedAnswers()[i] === option && !submitted()"
+                    [class.bg-purple-50]="selectedAnswers()[i] === option && !submitted()"
+                    [class.ring-2]="selectedAnswers()[i] === option && !submitted()"
+                    [class.ring-purple-400]="selectedAnswers()[i] === option && !submitted()"
+                    [class.border-green-500]="submitted() && option === question.correctAnswer"
+                    [class.bg-green-50]="submitted() && option === question.correctAnswer"
+                    [class.border-red-500]="submitted() && selectedAnswers()[i] === option && option !== question.correctAnswer"
+                    [class.bg-red-50]="submitted() && selectedAnswers()[i] === option && option !== question.correctAnswer">
+
+                    <div class="flex items-center gap-4">
+
+                        <!-- Option Label -->
+
+                        <div
+                            class="flex h-9 w-9 items-center justify-center rounded-full bg-slate-100 text-sm font-bold text-slate-700">
+
+                            {{ optionLabels[$index] }}
+
+                        </div>
+
+                        <!-- Option Text -->
+
+                        <span class="font-medium text-slate-700">
+
+                            {{ option }}
+
+                        </span>
+
+                    </div>
+
+                    <!-- Icons -->
+
+                    @if(!submitted() && selectedAnswers()[i] === option){
+
+                    <span class="text-xl">
+
+                        🔵
+
+                    </span>
+
+                    }
+
+                    @if(submitted() && option === question.correctAnswer){
+
+                    <span class="text-xl">
+
+                        ✅
+
+                    </span>
+
+                    }
+
+                    @if(submitted()
+                    && selectedAnswers()[i] === option
+                    && option !== question.correctAnswer){
+
+                    <span class="text-xl">
+
+                        ❌
+
+                    </span>
+
+                    }
+
+                </button>
+
+                }
+
+            </div>
+
+        </div>
+
+        }
+
+    </div>
+
+    <!-- Buttons -->
+
+    <div class="mt-10 flex flex-wrap justify-center gap-4">
+
+        @if(!submitted()){
+
+        <button type="button" (click)="submitQuiz()"
+            class="rounded-2xl bg-linear-to-r from-purple-500 to-blue-600 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+
+            Submit Quiz
+
+        </button>
+
+        }
+
+        @else{
+
+        <button type="button" (click)="resetQuiz()"
+            class="rounded-2xl bg-linear-to-r from-orange-500 to-red-500 px-8 py-4 font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+
+            Try Again
+
+        </button>
+
+        }
+
+    </div>
+
+    }
+
+
+    <!-- Empty -->
+
+
+    @else{
+
+    <div class="rounded-[30px] border-2 border-dashed border-slate-300 bg-slate-50 py-16 text-center">
+
+        <div
+            class="mx-auto flex h-24 w-24 items-center justify-center rounded-full bg-linear-to-r from-purple-500 to-blue-600 text-5xl text-white shadow-xl">
+
+            📝
+
+        </div>
+
+        <h3 class="mt-8 text-2xl font-bold text-slate-900">
+
+            No Quiz Available
+
+        </h3>
+
+        <p class="mx-auto mt-4 max-w-lg leading-7 text-slate-500">
+
+            Generate AI summaries first to automatically create practice quizzes from your document.
+
+        </p>
+
+    </div>
+
+    }
+
+
+    @if(submitted()){
+
+    <div
+        class="mt-10 rounded-3xl bg-linear-to-r from-green-500 via-emerald-500 to-green-600 px-6 py-8 text-center text-white shadow-xl">
+
+        <div class="text-5xl">
+
+            🏆
+
+        </div>
+
+        <h3 class="mt-4 text-2xl font-black sm:text-3xl">
+
+            Quiz Completed
+
+        </h3>
+
+        <p class="mt-2 text-white/90">
+
+            Your Final Score
+
+        </p>
+
+        <div class="mt-5 text-5xl font-black sm:text-6xl">
+
+            {{ score() }}
+
+            <span class="text-3xl font-semibold">
+
+                / {{ quiz.length }}
+
+            </span>
+
+        </div>
+
+        <div class="mx-auto mt-6 h-2 max-w-sm overflow-hidden rounded-full bg-white/20">
+
+            <div class="h-full rounded-full bg-white" [style.width.%]="(score() / quiz.length) * 100">
+
+            </div>
+
+        </div>
+
+    </div>
+
+    }
+
+</section>

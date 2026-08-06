@@ -1,0 +1,82 @@
+<section class="bg-white py-16">
+
+    <div class="mx-auto max-w-4xl px-6">
+
+        <!-- Heading -->
+
+        <div class="text-center">
+
+            <span
+                class="rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-600">
+
+                FAQ
+
+            </span>
+
+            <h2
+                class="mt-6 text-4xl font-bold text-slate-900">
+
+                Frequently Asked Questions
+
+            </h2>
+
+            <p
+                class="mt-4 text-lg text-slate-600">
+
+                Find answers to the most common questions about our AI PDF Notes Summarizer.
+
+            </p>
+
+        </div>
+
+        <!-- FAQ List -->
+
+        <div class="mt-14 space-y-5">
+
+            @for(faq of faqs; track faq.question; let i = $index){
+
+            <div
+                class="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+
+                <button
+
+                    (click)="toggle(i)"
+
+                    class="flex w-full items-center justify-between p-6 text-left">
+
+                    <span
+                        class="text-lg font-semibold text-slate-900">
+
+                        {{ faq.question }}
+
+                    </span>
+
+                    <span
+                        class="text-2xl font-bold text-orange-500">
+
+                        {{ selectedIndex() === i ? '−' : '+' }}
+
+                    </span>
+
+                </button>
+
+                @if(selectedIndex() === i){
+
+                <div
+                    class="border-t border-slate-200 px-6 py-5 text-slate-600">
+
+                    {{ faq.answer }}
+
+                </div>
+
+                }
+
+            </div>
+
+            }
+
+        </div>
+
+    </div>
+
+</section>

@@ -1,0 +1,158 @@
+/* =======================================================
+   Tailwind
+======================================================= */
+
+@import "tailwindcss";
+
+/* =======================================================
+   Global
+======================================================= */
+
+html{
+
+    scroll-behavior:smooth;
+
+    overflow-x:hidden;
+
+    background:white;
+
+}
+body.overflow-hidden{
+
+    overflow:hidden !important;
+
+}
+body{
+
+    margin:0;
+
+    padding:0;
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    font-family:Inter,sans-serif;
+
+    background:#020617;
+
+
+    text-rendering:optimizeLegibility;
+
+    -webkit-font-smoothing:antialiased;
+
+    -moz-osx-font-smoothing:grayscale;
+
+}
+
+/* =======================================================
+   Better Selection
+======================================================= */
+
+::selection{
+
+    background:#f97316;
+
+
+}
+
+::-moz-selection{
+
+    background:#f97316;
+
+
+}
+
+/* =======================================================
+   Professional Scrollbar
+======================================================= */
+
+::-webkit-scrollbar{
+
+    width:12px;
+
+}
+
+::-webkit-scrollbar-track{
+
+    background:#0f172a;
+
+}
+
+::-webkit-scrollbar-thumb{
+
+    border-radius:999px;
+
+    border:3px solid #0f172a;
+
+    background:linear-gradient(
+        180deg,
+        #fb923c,
+        #3b82f6
+    );
+
+}
+
+::-webkit-scrollbar-thumb:hover{
+
+    background:linear-gradient(
+        180deg,
+        #f97316,
+        #2563eb
+    );
+
+}
+
+/* Firefox */
+
+*{
+
+    scrollbar-width:thin;
+
+    scrollbar-color:#fb923c #0f172a;
+
+}
+
+/* =======================================================
+   Images
+======================================================= */
+
+img{
+
+    display:block;
+
+    max-width:100%;
+
+    height:auto;
+
+}
+
+/* =======================================================
+   Better Focus
+======================================================= */
+
+*:focus-visible{
+
+    outline:2px solid #f97316;
+
+    outline-offset:3px;
+
+}
+
+/* =======================================================
+   Reduce Animation For Accessibility
+======================================================= */
+
+@media (prefers-reduced-motion:reduce){
+
+    *{
+
+        animation:none!important;
+
+        transition:none!important;
+
+        scroll-behavior:auto!important;
+
+    }
+
+}

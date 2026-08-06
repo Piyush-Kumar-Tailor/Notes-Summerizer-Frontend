@@ -1,0 +1,308 @@
+<!-- ===================================================== -->
+<!-- Overlay -->
+<!-- ===================================================== -->
+
+<div
+    class="fixed inset-0 z-50 bg-slate-950/60 backdrop-blur-sm lg:hidden"
+    (click)="closeMenu()">
+
+    <!-- ===================================================== -->
+    <!-- Drawer -->
+    <!-- ===================================================== -->
+
+    <aside
+
+        (click)="$event.stopPropagation()"
+
+        class="absolute right-0 top-0 flex h-full w-[86%] max-w-sm flex-col overflow-hidden rounded-l-[30px] bg-white shadow-[0_30px_80px_rgba(15,23,42,.25)]">
+
+        <!-- ===================================================== -->
+        <!-- Header -->
+        <!-- ===================================================== -->
+
+        <div
+            class="relative bg-linear-to-r from-orange-500 via-orange-400 to-blue-600 px-6 pb-6 pt-5 text-white">
+
+            <!-- Close -->
+
+            <button
+
+                (click)="closeMenu()"
+
+                class="absolute right-5 top-5 flex h-10 w-10 items-center justify-center rounded-xl bg-white/15 transition hover:bg-white/25">
+
+                ✕
+
+            </button>
+
+            <!-- Brand -->
+
+            <div class="flex items-center gap-3">
+
+                <div
+                    class="flex h-12 w-12 items-center justify-center rounded-2xl bg-white/20 text-xl backdrop-blur">
+
+                    🤖
+
+                </div>
+
+                <div>
+
+                    <h2
+                        class="text-lg font-bold">
+
+                        AI PDF Notes
+
+                    </h2>
+
+                    <p
+                        class="text-xs text-white/80">
+
+                        Smart Study Assistant
+
+                    </p>
+
+                </div>
+
+            </div>
+
+            <!-- User -->
+
+            <div
+                class="mt-6 flex items-center gap-3">
+
+                <div
+                    class="flex h-12 w-12 items-center justify-center rounded-xl bg-white text-lg font-bold text-orange-600">
+
+                    {{ userInitial }}
+
+                </div>
+
+                <div class="min-w-0">
+
+                    <h3
+                        class="truncate font-semibold">
+
+                        {{ userName }}
+
+                    </h3>
+
+                    <p
+                        class="truncate text-xs text-white/80">
+
+                        {{ email }}
+
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- Navigation -->
+        <!-- ===================================================== -->
+
+        <div
+            class="flex-1 overflow-y-auto px-4 py-6">
+
+            <p
+                class="mb-3 px-3 text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+
+                Navigation
+
+            </p>
+
+            @for(link of navLinks; track link.path){
+
+            <a
+
+                [routerLink]="link.path"
+
+                (click)="closeMenu()"
+
+                [routerLinkActiveOptions]="{exact:link.exact}"
+
+                routerLinkActive="bg-gradient-to-r from-orange-50 to-blue-50 text-orange-600"
+
+                class="group flex items-center justify-between rounded-xl px-4 py-3 transition hover:bg-slate-100">
+
+                <div
+                    class="flex items-center gap-4">
+
+                    <div
+                        class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100 transition group-hover:bg-orange-100">
+
+                        {{ link.icon }}
+
+                    </div>
+
+                    <span
+                        class="font-medium text-slate-700">
+
+                        {{ link.label }}
+
+                    </span>
+
+                </div>
+
+                <svg
+
+                    xmlns="http://www.w3.org/2000/svg"
+
+                    class="h-4 w-4 text-slate-400 transition group-hover:translate-x-1"
+
+                    fill="none"
+
+                    viewBox="0 0 24 24"
+
+                    stroke="currentColor">
+
+                    <path
+
+                        stroke-linecap="round"
+
+                        stroke-linejoin="round"
+
+                        stroke-width="2"
+
+                        d="M9 5l7 7-7 7"/>
+
+                </svg>
+
+            </a>
+
+            }
+
+            <!-- Upload -->
+
+            <div
+                class="mt-6">
+
+                <a
+
+                    routerLink="/upload"
+
+                    (click)="closeMenu()"
+
+                    class="flex items-center justify-center gap-2 rounded-xl border border-orange-200 bg-orange-50 py-3 font-semibold text-orange-600 transition hover:bg-orange-100">
+
+                    ➕
+
+                    Upload PDF
+
+                </a>
+
+            </div>
+
+            <!-- Divider -->
+
+            <div
+                class="my-6 border-t border-slate-200">
+            </div>
+
+            <!-- ===================================================== -->
+            <!-- Account -->
+            <!-- ===================================================== -->
+
+            <p
+                class="mb-3 px-3 text-xs font-bold uppercase tracking-[0.22em] text-slate-400">
+
+                Settings
+
+            </p>
+
+            <a
+
+                routerLink="/profile"
+
+                (click)="closeMenu()"
+
+                class="flex items-center gap-4 rounded-xl px-4 py-3 transition hover:bg-slate-100">
+
+                <div
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
+
+                    👤
+
+                </div>
+
+                <span
+                    class="font-medium text-slate-700">
+
+                    My Profile
+
+                </span>
+
+            </a>
+
+            <a
+
+                routerLink="/profile/change-password"
+
+                (click)="closeMenu()"
+
+                class="mt-1 flex items-center gap-4 rounded-xl px-4 py-3 transition hover:bg-slate-100">
+
+                <div
+                    class="flex h-10 w-10 items-center justify-center rounded-xl bg-slate-100">
+
+                    🔒
+
+                </div>
+
+                <span
+                    class="font-medium text-slate-700">
+
+                    Change Password
+
+                </span>
+
+            </a>
+
+        </div>
+
+        <!-- ===================================================== -->
+        <!-- Footer -->
+        <!-- ===================================================== -->
+
+        <div
+            class="border-t border-slate-200 bg-slate-50 px-5 py-4">
+
+            <button
+
+                (click)="logout()"
+
+                class="flex w-full items-center justify-center gap-3 rounded-xl px-4 py-3 font-semibold text-red-600 transition hover:bg-red-50">
+
+                🚪
+
+                Logout
+
+            </button>
+
+            <div
+                class="mt-4 text-center">
+
+                <p
+                    class="text-xs font-semibold text-slate-500">
+
+                    AI PDF Notes
+
+                </p>
+
+                <p
+                    class="mt-1 text-xs text-slate-400">
+
+                    Version 1.0
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </aside>
+
+</div>

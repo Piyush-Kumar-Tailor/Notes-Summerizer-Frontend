@@ -1,0 +1,94 @@
+<div class="grid gap-10 p-8 lg:grid-cols-2">
+
+    <div>
+
+        <span
+            class="rounded-full bg-red-100 px-4 py-2 text-sm font-semibold text-red-600">
+
+            🎯 Exam Preparation
+
+        </span>
+
+        <h3
+            class="mt-6 text-3xl font-bold text-slate-900">
+
+            Prepare Smarter With AI
+
+        </h3>
+
+        <p
+            class="mt-5 leading-8 text-slate-600">
+
+            AI identifies the most important concepts from your study material
+            and prepares everything you need before exams.
+
+        </p>
+
+        <div
+            class="mt-8 space-y-4">
+
+            @for(topic of topics; track topic){
+
+            <div
+                class="flex items-center gap-4 rounded-xl bg-slate-50 p-4">
+
+                <div
+                    class="flex h-10 w-10 items-center justify-center rounded-full bg-linear-to-r from-orange-500 to-blue-600 text-white">
+
+                    ✓
+
+                </div>
+
+                <span
+                    class="font-medium text-slate-700">
+
+                    {{ topic }}
+
+                </span>
+
+            </div>
+
+            }
+
+        </div>
+
+    </div>
+
+    <div
+        class="rounded-3xl border border-slate-200 bg-linear-to-br from-orange-50 to-white p-8">
+
+        <h4
+            class="text-2xl font-bold text-black">
+
+            AI Study Plan
+
+        </h4>
+
+        <div
+            class="mt-8 space-y-6 text-black">
+
+            <div>
+                📘 Read AI Summary
+            </div>
+
+            <div>
+                📝 Revise Smart Notes
+            </div>
+
+            <div>
+                🧠 Practice Flashcards
+            </div>
+
+            <div>
+                ❓ Solve AI Quiz
+            </div>
+
+            <div>
+                🎯 Review Important Questions
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

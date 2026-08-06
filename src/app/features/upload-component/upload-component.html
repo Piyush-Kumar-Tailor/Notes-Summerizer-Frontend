@@ -1,0 +1,153 @@
+<main
+    class="relative flex min-h-[calc(100vh-5rem)] items-center justify-center overflow-hidden px-4 py-6 sm:px-6 sm:py-8 lg:min-h-[calc(100vh-8rem)] lg:px-8 lg:py-12">
+
+    <!-- ================================================= -->
+    <!-- Background -->
+    <!-- ================================================= -->
+
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+
+        <!-- Main Glow -->
+
+        <div
+            class="absolute left-1/2 top-0 h-72 w-72 -translate-x-1/2 rounded-full bg-orange-500/15 blur-[120px] sm:h-96 sm:w-96 lg:h-112.5 lg:w-112.5">
+        </div>
+
+        <!-- Left Glow -->
+
+        <div class="absolute -left-24 top-1/3 h-56 w-56 rounded-full bg-orange-400/10 blur-[120px] sm:h-72 sm:w-72">
+        </div>
+
+        <!-- Right Glow -->
+
+        <div class="absolute -right-24 bottom-0 h-56 w-56 rounded-full bg-blue-500/10 blur-[140px] sm:h-72 sm:w-72">
+        </div>
+
+    </div>
+
+    <!-- ================================================= -->
+    <!-- Upload Card -->
+    <!-- ================================================= -->
+
+    <section class="relative z-10 w-full max-w-md sm:max-w-2xl lg:max-w-4xl">
+
+        <div
+            class="overflow-hidden rounded-3xl border border-white/20 bg-white/90 shadow-[0_20px_60px_rgba(15,23,42,.12)] backdrop-blur-2xl lg:rounded-[34px]">
+
+            <!-- ================================================= -->
+            <!-- Hero -->
+            <!-- ================================================= -->
+
+            <div class="border-b border-slate-100 px-5 py-6 sm:px-8 sm:py-8">
+
+                <app-upload-hero></app-upload-hero>
+
+            </div>
+
+            <!-- ================================================= -->
+            <!-- Upload Area -->
+            <!-- ================================================= -->
+
+            <div class="px-5 py-6 sm:px-8 sm:py-8">
+
+                <app-drag-drop (fileSelected)="onFileSelected($event)">
+                </app-drag-drop>
+
+            </div>
+
+            <!-- ================================================= -->
+            <!-- Selected File -->
+            <!-- ================================================= -->
+
+            @if(selectedFile() && !uploadCompleted()){
+
+            <div class="border-t border-slate-100 px-5 py-5 sm:px-8 sm:py-6">
+
+                <app-selected-file [file]="selectedFile()!" [uploading]="isUploading()" (remove)="removeFile()"
+                    (upload)="uploadFile()">
+
+                </app-selected-file>
+
+            </div>
+
+            }
+
+            <!-- ================================================= -->
+            <!-- Progress -->
+            <!-- ================================================= -->
+
+            @if(isUploading()){
+
+            <div class="border-t border-slate-100 px-5 py-5 sm:px-8 sm:py-6">
+
+                <app-upload-progress >
+                </app-upload-progress>
+
+            </div>
+
+            }
+
+            <!-- ================================================= -->
+            <!-- Error -->
+            <!-- ================================================= -->
+
+            @if(error()){
+
+            <div class="border-t border-slate-100 px-5 py-5 sm:px-8 sm:py-6">
+
+                <div class="rounded-2xl border border-red-200 bg-red-50 p-4 sm:p-5">
+
+                    <div class="flex items-start gap-3 sm:gap-4">
+
+                        <div
+                            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-lg sm:h-12 sm:w-12 sm:text-xl">
+
+                            ⚠️
+
+                        </div>
+
+                        <div>
+
+                            <h4 class="font-semibold text-red-700">
+
+                                Upload Failed
+
+                            </h4>
+
+                            <p class="mt-1 text-sm leading-6 text-red-600">
+
+                                {{ error() }}
+
+                            </p>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            }
+
+            <!-- ================================================= -->
+            <!-- Success -->
+            <!-- ================================================= -->
+
+            @if(uploadCompleted()){
+
+            <div class="border-t border-slate-100 px-5 py-5 sm:px-8 sm:py-6">
+
+                <app-upload-success (viewSummary)="goToSummary()">
+
+                </app-upload-success>
+
+            </div>
+
+            }
+
+        </div>
+
+    </section>
+
+</main>

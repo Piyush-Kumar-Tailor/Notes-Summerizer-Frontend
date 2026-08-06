@@ -1,0 +1,205 @@
+<div class="grid gap-10 p-8 lg:grid-cols-2">
+
+    <!-- Left -->
+
+    <div>
+
+        <span
+            class="rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-600">
+
+            🤖 AI Summary
+
+        </span>
+
+        <h3
+            class="mt-6 text-3xl font-bold text-slate-900">
+
+            Summarize Large PDFs in Seconds
+
+        </h3>
+
+        <p
+            class="mt-5 leading-8 text-slate-600">
+
+            Upload books, documentation, handwritten notes or research papers.
+            Our AI extracts the most important concepts and creates concise,
+            meaningful summaries while preserving the original context.
+
+        </p>
+
+        <!-- Benefits -->
+
+        <div
+            class="mt-8 space-y-4">
+
+            @for(item of benefits; track item){
+
+            <div
+                class="flex items-start gap-3">
+
+                <div
+                    class="mt-1 flex h-6 w-6 items-center justify-center rounded-full bg-orange-500 text-sm text-white">
+
+                    ✓
+
+                </div>
+
+                <p
+                    class="text-slate-700">
+
+                    {{ item }}
+
+                </p>
+
+            </div>
+
+            }
+
+        </div>
+
+    </div>
+
+    <!-- Right -->
+
+    <div class="space-y-6">
+
+        <!-- Workflow -->
+
+        <div
+            class="rounded-2xl border border-orange-100 bg-white p-6 shadow-sm">
+
+            <h4
+                class="text-xl font-bold text-slate-900">
+
+                Workflow
+
+            </h4>
+
+            <div
+                class="mt-6 space-y-5">
+
+                @for(step of workflow; track step; let i = $index){
+
+                <div
+                    class="flex items-center gap-4">
+
+                    <div
+                        class="flex h-10 w-10 items-center justify-center rounded-full bg-linear-to-r from-orange-500 to-blue-600 font-bold text-white">
+
+                        {{ i + 1 }}
+
+                    </div>
+
+                    <p
+                        class="font-medium text-slate-700">
+
+                        {{ step }}
+
+                    </p>
+
+                </div>
+
+                }
+
+            </div>
+
+        </div>
+
+        <!-- Technologies -->
+
+        <div
+            class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+
+            <h4
+                class="text-xl font-bold text-slate-900">
+
+                Powered By
+
+            </h4>
+
+            <div
+                class="mt-5 flex flex-wrap gap-3">
+
+                @for(tech of technologies; track tech){
+
+                <span
+                    class="rounded-full bg-slate-100 px-4 py-2 text-sm font-medium text-slate-700">
+
+                    {{ tech }}
+
+                </span>
+
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Bottom Example -->
+
+<div
+    class="border-t border-orange-100 bg-linear-to-r from-orange-50 via-white to-blue-50 p-8">
+
+    <h4
+        class="text-2xl font-bold text-slate-900">
+
+        AI Summary Example
+
+    </h4>
+
+    <div
+        class="mt-8 grid gap-6 lg:grid-cols-2">
+
+        <!-- Original -->
+
+        <div
+            class="rounded-2xl border border-slate-200 bg-white p-6">
+
+            <h5
+                class="font-semibold text-slate-900">
+
+                Original PDF
+
+            </h5>
+
+            <p
+                class="mt-4 text-sm leading-7 text-slate-600">
+
+                Artificial Intelligence is a branch of computer science focused
+                on developing systems capable of performing tasks that
+                typically require human intelligence...
+
+            </p>
+
+        </div>
+
+        <!-- Summary -->
+
+        <div
+            class="rounded-2xl border border-orange-200 bg-orange-50 p-6">
+
+            <h5
+                class="font-semibold text-orange-700">
+
+                AI Generated Summary
+
+            </h5>
+
+            <p
+                class="mt-4 text-sm leading-7 text-slate-700">
+
+                AI enables machines to simulate human intelligence by learning,
+                reasoning and solving problems. Key areas include Machine
+                Learning, NLP and Computer Vision.
+
+            </p>
+
+        </div>
+
+    </div>
+
+</div>

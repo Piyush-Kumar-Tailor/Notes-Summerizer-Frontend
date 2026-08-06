@@ -1,0 +1,193 @@
+<section id="export"
+    class="relative mt-10 overflow-hidden rounded-4xl border border-white/50 bg-white/80 p-6 shadow-[0_20px_50px_rgba(15,23,42,.08)] backdrop-blur-xl sm:p-8">
+
+    <!-- Background Glow -->
+
+    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+
+        <div
+            class="absolute -right-16 -top-16 h-56 w-56 rounded-full bg-indigo-300/15 blur-[120px]">
+        </div>
+
+        <div
+            class="absolute -left-20 bottom-0 h-52 w-52 rounded-full bg-orange-300/10 blur-[120px]">
+        </div>
+
+    </div>
+
+    <div class="relative z-10">
+
+        <!-- Header -->
+
+        <div
+            class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+
+            <div>
+
+                <span
+                    class="inline-flex items-center rounded-full border border-indigo-200 bg-indigo-50 px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-indigo-700">
+
+                    Export
+
+                </span>
+
+                <h2
+                    class="mt-4 text-2xl font-black text-slate-900 sm:text-3xl">
+
+                    Download Your Notes
+
+                </h2>
+
+                <p
+                    class="mt-2 max-w-xl text-sm leading-6 text-slate-500">
+
+                    Save your AI-generated study material in multiple formats
+                    for offline access.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Actions -->
+
+        <div
+            class="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+            <!-- PDF -->
+
+            <button
+                (click)="downloadPdf()"
+                class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-red-300 hover:shadow-lg">
+
+                <div
+                    class="flex h-14 w-14 items-center justify-center rounded-2xl bg-red-100 text-2xl">
+
+                    📕
+                </div>
+
+                <div>
+
+                    <h3
+                        class="font-bold text-slate-900">
+
+                        PDF
+
+                    </h3>
+
+                    <p
+                        class="mt-1 text-sm text-slate-500">
+
+                        Printable version
+
+                    </p>
+
+                </div>
+
+            </button>
+
+            <!-- DOCX -->
+
+            <button
+                (click)="downloadDocx()"
+                class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-blue-300 hover:shadow-lg">
+
+                <div
+                    class="flex h-14 w-14 items-center justify-center rounded-2xl bg-blue-100 text-2xl">
+
+                    📘
+
+                </div>
+
+                <div>
+
+                    <h3
+                        class="font-bold text-slate-900">
+
+                        DOCX
+
+                    </h3>
+
+                    <p
+                        class="mt-1 text-sm text-slate-500">
+
+                        Microsoft Word
+
+                    </p>
+
+                </div>
+
+            </button>
+
+            <!-- TXT -->
+
+            <button
+                (click)="downloadTxt()"
+                class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-slate-400 hover:shadow-lg">
+
+                <div
+                    class="flex h-14 w-14 items-center justify-center rounded-2xl bg-slate-100 text-2xl">
+
+                    📄
+
+                </div>
+
+                <div>
+
+                    <h3
+                        class="font-bold text-slate-900">
+
+                        TXT
+
+                    </h3>
+
+                    <p
+                        class="mt-1 text-sm text-slate-500">
+
+                        Plain text file
+
+                    </p>
+
+                </div>
+
+            </button>
+
+            <!-- Copy -->
+
+            <button
+                (click)="copySummary()"
+                class="group flex items-center gap-4 rounded-2xl border border-slate-200 bg-white p-5 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-emerald-300 hover:shadow-lg">
+
+                <div
+                    class="flex h-14 w-14 items-center justify-center rounded-2xl bg-emerald-100 text-2xl">
+
+                    📋
+
+                </div>
+
+                <div>
+
+                    <h3
+                        class="font-bold text-slate-900">
+
+                        Copy
+
+                    </h3>
+
+                    <p
+                        class="mt-1 text-sm text-slate-500">
+
+                        Copy summary text
+
+                    </p>
+
+                </div>
+
+            </button>
+
+        </div>
+
+    </div>
+
+</section>

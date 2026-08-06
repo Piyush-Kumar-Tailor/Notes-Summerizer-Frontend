@@ -1,0 +1,152 @@
+<div class="relative min-h-screen overflow-hidden bg-white text-black">
+
+         <!-- Premium AI Background -->
+
+    <div
+        class="pointer-events-none fixed inset-0 -z-20 overflow-hidden">
+
+        <!-- Base Background -->
+
+        <div
+            class="absolute inset-0 bg-white">
+        </div>
+
+        <!-- Massive Hero Light -->
+
+        <div
+            class="absolute
+            left-1/2
+            -top-128
+            h-384
+            w-384
+            -translate-x-1/2
+            rounded-full
+            bg-[radial-gradient(circle,rgba(255,185,70,.75)_0%,rgba(255,145,0,.55)_22%,rgba(255,110,0,.32)_48%,rgba(59,130,246,.10)_72%,transparent_88%)]
+            blur-[130px]">
+        </div>
+
+        <!-- Left Glow -->
+
+        <div
+            class="absolute
+            -left-112
+            top-20
+            h-248
+            w-248
+            rounded-full
+            bg-[radial-gradient(circle,rgba(255,145,0,.50)_0%,rgba(255,120,0,.24)_46%,transparent_78%)]
+            blur-[120px]">
+        </div>
+
+        <!-- Right Glow -->
+
+        <div
+            class="absolute
+            -right-88
+            top-48
+            h-224
+            w-4xl
+            rounded-full
+            bg-[radial-gradient(circle,rgba(255,170,60,.36)_0%,rgba(255,120,0,.18)_45%,transparent_78%)]
+            blur-[120px]">
+        </div>
+
+        <!-- Center Ambient -->
+
+        <div
+            class="absolute
+            left-1/2
+            top-[45%]
+            h-160
+            w-160
+            -translate-x-1/2
+            rounded-full
+            bg-[radial-gradient(circle,rgba(255,185,90,.22),transparent_72%)]
+            blur-[120px]">
+        </div>
+
+        <!-- Bottom Glow -->
+
+        <div
+            class="absolute
+            left-1/2
+            -bottom-88
+            h-304
+            w-336
+            -translate-x-1/2
+            rounded-full
+            bg-[radial-gradient(circle,rgba(255,145,0,.40)_0%,rgba(255,110,0,.22)_48%,transparent_82%)]
+            blur-[150px]">
+        </div>
+
+        <!-- Small Blue Accent -->
+
+        <div
+            class="absolute
+            right-24
+            top-[36%]
+            h-72
+            w-[18rem]
+            rounded-full
+            bg-blue-400/10
+            blur-[170px]">
+        </div>
+
+        <!-- Golden Highlight -->
+
+        <div
+            class="absolute
+            left-24
+            bottom-20
+            h-80
+            w-[20rem]
+            rounded-full
+            bg-amber-300/20
+            blur-[150px]">
+        </div>
+
+        <!-- Premium Grid -->
+
+        <div
+            class="absolute inset-0 opacity-[0.03]">
+
+            <div
+                class="h-full w-full
+                bg-[linear-gradient(rgba(255,255,255,.12)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,.12)_1px,transparent_1px)]
+                bg-size-[72px_72px]">
+            </div>
+
+        </div>
+
+        <!-- Noise -->
+
+        <div
+            class="absolute inset-0 opacity-[0.015]
+            bg-[url('data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22140%22 height=%22140%22 viewBox=%220 0 140 140%22%3E%3Cfilter id=%22n%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.9%22 numOctaves=%223%22/%3E%3C/filter%3E%3Crect width=%22140%22 height=%22140%22 filter=%22url(%23n)%22 opacity=%221%22/%3E%3C/svg%3E')]">
+        </div>
+
+        <!-- Warm Overlay -->
+
+        <div
+            class="absolute inset-0
+            bg-linear-to-b
+            from-orange-300/5
+            via-transparent
+            to-black/10">
+        </div>
+
+    </div>
+
+    <!-- Toast -->
+
+    <app-toast></app-toast>
+
+    <!-- Routed Pages -->
+
+    <main class="relative z-10 min-h-screen">
+
+        <router-outlet></router-outlet>
+
+    </main>
+
+</div>

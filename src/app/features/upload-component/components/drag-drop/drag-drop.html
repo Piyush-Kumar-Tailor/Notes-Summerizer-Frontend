@@ -1,0 +1,217 @@
+<div class="relative mx-auto max-w-5xl px-4 py-8 sm:px-6 sm:py-10 lg:px-6 lg:py-12">
+
+    <!-- Ambient Background -->
+
+    <div class="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
+
+        <div
+            class="absolute left-1/2 top-0 h-60 w-60 -translate-x-1/2 rounded-full bg-orange-400/20 blur-[110px] sm:h-72 sm:w-72 lg:blur-[140px]">
+        </div>
+
+        <div
+            class="absolute -left-16 bottom-0 h-48 w-48 rounded-full bg-orange-300/15 blur-[100px] sm:h-56 sm:w-56">
+        </div>
+
+        <div
+            class="absolute -right-16 top-10 h-48 w-48 rounded-full bg-blue-300/10 blur-[110px] sm:h-56 sm:w-56">
+        </div>
+
+    </div>
+
+    <!-- Upload Card -->
+
+    <div
+
+        (dragover)="onDragOver($event)"
+        (dragleave)="onDragLeave($event)"
+        (drop)="onDrop($event)"
+
+        class="group relative overflow-hidden rounded-3xl border bg-white/90 p-5 shadow-[0_20px_60px_rgba(15,23,42,.10)] backdrop-blur-xl transition-all duration-500 sm:p-8 lg:rounded-[36px] lg:p-10"
+
+        [class.border-orange-400]="isDragging()"
+        [class.bg-orange-50]="isDragging()"
+        [class.scale-[1.01]]="isDragging()"
+        [class.border-slate-200]="!isDragging()">
+
+        <!-- Decorative Glow -->
+
+        <div
+            class="pointer-events-none absolute -right-20 -top-20 h-52 w-52 rounded-full bg-orange-300/20 blur-[100px] transition duration-500 group-hover:scale-110 lg:h-56 lg:w-56">
+        </div>
+
+        <div
+            class="pointer-events-none absolute -left-20 bottom-0 h-40 w-40 rounded-full bg-blue-300/10 blur-[90px] lg:h-44 lg:w-44">
+        </div>
+
+        <!-- Upload Icon -->
+
+        <div
+            class="mx-auto flex h-18 w-18 items-center justify-center rounded-2xl bg-linear-to-br from-orange-500 via-orange-400 to-blue-600 text-4xl text-white shadow-xl transition duration-500 group-hover:rotate-6 group-hover:scale-105 sm:h-22 sm:w-22 sm:text-5xl lg:h-24 lg:w-24">
+
+            📄
+
+        </div>
+
+        <!-- Heading -->
+
+        <h2
+            class="mt-6 text-center text-2xl font-black leading-tight text-slate-900 sm:mt-8 sm:text-3xl">
+
+            Drag & Drop Your PDF
+
+        </h2>
+
+        <!-- Description -->
+
+        <p
+            class="mx-auto mt-4 max-w-2xl text-center text-sm leading-7 text-slate-600 sm:text-base sm:leading-8">
+
+            Upload lecture notes, books, research papers or documentation and instantly generate AI summaries,
+            flashcards, quizzes and interview questions.
+
+        </p>
+
+        <!-- Browse Button -->
+
+        <div
+            class="mt-8 flex justify-center sm:mt-10">
+
+            <label
+
+                for="pdfFile"
+
+                class="group/button relative flex cursor-pointer items-center justify-center gap-2 overflow-hidden rounded-2xl bg-linear-to-r from-orange-500 via-orange-400 to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-xl transition-all duration-300 hover:-translate-y-1 hover:shadow-orange-300/50 sm:px-8 sm:py-4 sm:text-base">
+
+                <span
+                    class="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/30 to-transparent transition duration-700 group-hover/button:translate-x-full">
+                </span>
+
+                <span class="relative flex items-center gap-2">
+
+                    📂
+
+                    Choose PDF
+
+                </span>
+
+            </label>
+
+        </div>
+
+        <!-- Hidden Input -->
+
+        <input
+            id="pdfFile"
+            type="file"
+            accept=".pdf"
+            hidden
+            (change)="onFileSelected($event)">
+
+        <!-- Divider -->
+
+        <div
+            class="my-8 h-px bg-linear-to-r from-transparent via-slate-200 to-transparent">
+        </div>
+
+        <!-- Footer Features -->
+
+        <div
+            class="grid grid-cols-2 gap-3 text-sm sm:flex sm:flex-wrap sm:items-center sm:justify-center sm:gap-5">
+
+            <div
+                class="flex items-center justify-center gap-2 rounded-xl bg-slate-50 px-3 py-3">
+
+                <span class="text-green-500">✔</span>
+
+                <span class="text-slate-600">
+
+                    PDF Only
+
+                </span>
+
+            </div>
+
+            <div
+                class="flex items-center justify-center gap-2 rounded-xl bg-slate-50 px-3 py-3">
+
+                <span class="text-orange-500">⚡</span>
+
+                <span class="text-slate-600">
+
+                    Max 20 MB
+
+                </span>
+
+            </div>
+
+            <div
+                class="flex items-center justify-center gap-2 rounded-xl bg-slate-50 px-3 py-3">
+
+                <span class="text-blue-500">🔒</span>
+
+                <span class="text-slate-600">
+
+                    Secure Upload
+
+                </span>
+
+            </div>
+
+            <div
+                class="flex items-center justify-center gap-2 rounded-xl bg-slate-50 px-3 py-3">
+
+                <span class="text-purple-500">🤖</span>
+
+                <span class="text-slate-600">
+
+                    AI Processing
+
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Error -->
+
+    @if(errorMessage()){
+
+    <div
+        class="mt-6 rounded-2xl border border-red-200 bg-red-50 p-4 shadow-md sm:p-5">
+
+        <div class="flex items-start gap-3">
+
+            <div
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-lg">
+
+                ⚠️
+
+            </div>
+
+            <div>
+
+                <h4
+                    class="font-semibold text-red-700">
+
+                    Upload Error
+
+                </h4>
+
+                <p
+                    class="mt-1 text-sm leading-6 text-red-600">
+
+                    {{ errorMessage() }}
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    }
+
+</div>

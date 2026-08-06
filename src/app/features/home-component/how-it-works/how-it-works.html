@@ -1,0 +1,89 @@
+<section class="bg-white py-16">
+
+    <div class="mx-auto max-w-7xl px-6 lg:px-8">
+
+        <!-- Heading -->
+
+        <div class="text-center">
+
+            <span
+                class="rounded-full bg-orange-100 px-4 py-2 text-sm font-semibold text-orange-600">
+
+                How It Works
+
+            </span>
+
+            <h2
+                class="mt-6 text-4xl font-bold text-slate-900">
+
+                Generate Smart Notes in 4 Simple Steps
+
+            </h2>
+
+            <p
+                class="mx-auto mt-5 max-w-3xl text-lg text-slate-600">
+
+                Upload your PDF and let AI do the heavy lifting. It only takes a few seconds.
+
+            </p>
+
+        </div>
+
+        <!-- Timeline -->
+
+        <div class="relative mt-20">
+
+            <!-- Desktop Connecting Line -->
+
+            <div
+                class="absolute left-0 right-0 top-16 hidden h-1 bg-linear-to-r from-orange-500 to-blue-600 lg:block">
+            </div>
+
+            <div class="grid gap-10 lg:grid-cols-4">
+
+                @for(step of steps; track step.step){
+
+                <div class="relative text-center">
+
+                    <!-- Step Number -->
+
+                    <div
+                        class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-linear-to-r from-orange-500 to-blue-600 text-xl font-bold text-white shadow-lg">
+
+                        {{ step.step }}
+
+                    </div>
+
+                    <!-- Icon -->
+
+                    <div class="mt-6 text-5xl">
+
+                        {{ step.icon }}
+
+                    </div>
+
+                    <h3
+                        class="mt-6 text-2xl font-bold text-slate-900">
+
+                        {{ step.title }}
+
+                    </h3>
+
+                    <p
+                        class="mt-4 leading-7 text-slate-600">
+
+                        {{ step.description }}
+
+                    </p>
+
+                </div>
+
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>

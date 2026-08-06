@@ -1,0 +1,58 @@
+<div
+    class="mx-auto mt-10 max-w-4xl rounded-3xl border border-green-200 bg-green-50 p-10 shadow-lg">
+
+    <!-- Success Icon -->
+
+    <div
+        class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-green-500 text-4xl text-white">
+
+        ✓
+
+    </div>
+
+    <!-- Heading -->
+
+    <h2
+        class="mt-6 text-center text-3xl font-bold text-slate-900">
+
+        ✓ Summary Ready
+
+    </h2>
+
+    <p
+        class="mx-auto mt-4 max-w-2xl text-center text-slate-600">
+
+        Your PDF has been uploaded successfully.
+        The AI is ready to generate a smart summary,
+        flashcards, quizzes and interview questions.
+
+    </p>
+
+    <!-- Buttons -->
+
+    <div
+        class="mt-10 flex flex-col justify-center gap-4 sm:flex-row">
+
+        <button
+
+            (click)="viewSummary.emit()"
+
+            class="rounded-xl bg-linear-to-r from-orange-500 to-blue-600 px-8 py-4 font-semibold text-white shadow-lg transition hover:-translate-y-1">
+
+            View Summary
+
+        </button>
+
+        <button
+
+            routerLink="/upload"
+
+            class="rounded-xl border border-slate-300 px-8 py-4 font-semibold text-slate-700 transition hover:bg-slate-100">
+
+            Upload Another PDF
+
+        </button>
+
+    </div>
+
+</div>

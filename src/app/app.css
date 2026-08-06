@@ -1,0 +1,39 @@
+:host{
+
+    display:block;
+
+    min-height:100vh;
+
+    overflow-x:hidden;
+
+    .flashing-gradient {
+  /* A fallback for older browsers */
+  background: rgb(110, 57, 0);
+
+  /* The gradient combining blue, your original color, and a bright flash */
+  background: linear-gradient(
+    135deg,
+    #0047AB 0%,          /* Deep Blue */
+    #00BFFF 30%,         /* Vivid Light Blue */
+    rgb(110, 57, 0) 70%, /* Your original dark orange */
+    #FF7300 100%         /* Bright glowing orange for the flash */
+  );
+
+  /* Make the background 3x larger so we have room to move it */
+  background-size: 300% 300%;
+
+  /* Run the flash animation continuously, alternating back and forth */
+  animation: orangeFlash 1.2s infinite alternate ease-in-out;
+}
+
+/* The keyframes that move the gradient to create the flash */
+@keyframes orangeFlash {
+  0% {
+    background-position: 0% 50%; /* Shows mostly the blues */
+  }
+  100% {
+    background-position: 100% 50%; /* Pulls the bright orange into view */
+  }
+}
+
+}

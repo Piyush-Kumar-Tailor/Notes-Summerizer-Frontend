@@ -1,0 +1,142 @@
+<header class="fixed inset-x-0 top-0 z-50 px-4 pt-4 lg:px-8">
+
+    <!-- Ambient Glow -->
+
+    <div class="pointer-events-none absolute inset-x-0 top-0 flex justify-center">
+
+        <div
+            class="h-40 w-184 rounded-full bg-linear-to-r from-orange-500/20 via-orange-300/10 to-blue-500/10 blur-3xl">
+        </div>
+
+    </div>
+
+    <!-- Navbar -->
+
+    <nav
+        class="relative mx-auto flex h-18.5 max-w-7xl items-center justify-between rounded-2xl border border-white/10 bg-slate-950/70 px-6 backdrop-blur-3xl shadow-[0_12px_45px_rgba(0,0,0,.35)] overflow-visible">
+
+        <!-- Inner Glow -->
+
+        <div
+            class="pointer-events-none absolute inset-0 rounded-2xl bg-[radial-gradient(circle_at_left_top,rgba(249,115,22,.10),transparent_38%),radial-gradient(circle_at_right_bottom,rgba(59,130,246,.06),transparent_40%)]">
+        </div>
+
+        <!-- Border Highlight -->
+
+        <div class="pointer-events-none absolute inset-0 rounded-2xl ring-1 ring-white/5">
+        </div>
+
+        <div class="relative z-30 flex flex-1 items-center gap-3">
+
+            <app-logo />
+
+            <div class="min-w-0 lg:hidden">
+
+                <h2 class="truncate text-base font-bold text-white">
+
+                    AI PDF Notes
+
+                </h2>
+
+                <p class="truncate text-xs text-slate-400">
+
+                    Learn Faster with AI
+
+                </p>
+
+            </div>
+
+        </div>
+
+        <!-- Desktop Navigation -->
+
+        <div class="relative z-30 hidden flex-1 justify-center lg:flex">
+
+            <app-nav-links />
+
+        </div>
+
+        <!-- Right Section -->
+
+        <div class="relative z-30 flex items-center gap-3">
+
+            <!-- Upload Button -->
+
+            <a routerLink="/upload"
+                class="group relative hidden overflow-hidden rounded-xl bg-linear-to-r from-orange-500 via-orange-400 to-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-orange-500/40 lg:flex">
+
+                <!-- Shine -->
+
+                <span
+                    class="absolute inset-0 -translate-x-full bg-linear-to-r from-transparent via-white/30 to-transparent transition duration-700 group-hover:translate-x-full">
+                </span>
+
+                <span class="relative flex items-center gap-2">
+
+                    <svg xmlns="http://www.w3.org/2000/svg"
+                        class="h-4 w-4 transition duration-300 group-hover:rotate-90" fill="none" viewBox="0 0 24 24"
+                        stroke="currentColor">
+
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+
+                    </svg>
+
+                    Upload PDF
+
+                </span>
+
+            </a>
+
+            <!-- User Menu -->
+
+            <div class="relative z-100 hidden lg:block">
+
+                <app-user-menu />
+
+            </div>
+
+            <!-- Mobile Menu Button -->
+
+            <button type="button" (click)="toggleMobileMenu()"
+                class="flex h-11 w-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-slate-200 transition-all duration-300 hover:border-orange-400/40 hover:bg-linear-to-r hover:from-orange-500/15 hover:to-blue-500/15 hover:text-white lg:hidden">
+
+                @if(!isMobileMenuOpen()){
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
+                    stroke="currentColor">
+
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+
+                </svg>
+
+                }
+
+                @else{
+
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 transition duration-300 rotate-180" fill="none"
+                    viewBox="0 0 24 24" stroke="currentColor">
+
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+
+                </svg>
+
+                }
+
+            </button>
+
+        </div>
+
+    </nav>
+
+</header>
+
+@if(isMobileMenuOpen()){
+
+<div class="fixed inset-0 z-40 bg-black/30 backdrop-blur-sm lg:hidden">
+
+    <app-mobile-menu (menuClosed)="closeMobileMenu()">
+    </app-mobile-menu>
+
+</div>
+
+}

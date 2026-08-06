@@ -1,0 +1,95 @@
+<div class="p-8">
+
+    <div
+        class="text-center">
+
+        <span
+            class="rounded-full bg-purple-100 px-4 py-2 text-sm font-semibold text-purple-600">
+
+            🧠 Flashcards
+
+        </span>
+
+        <h3
+            class="mt-6 text-3xl font-bold text-slate-900">
+
+            Learn Faster with AI Flashcards
+
+        </h3>
+
+        <p
+            class="mx-auto mt-5 max-w-3xl leading-8 text-slate-600">
+
+            Every important concept is converted into interactive
+            flashcards, making memorization much easier.
+
+        </p>
+
+    </div>
+
+    <div
+        class="mt-12 grid gap-8 lg:grid-cols-3">
+
+        @for(card of flashcards; track card.question){
+
+        <div
+            class="group rounded-3xl border border-slate-200 bg-white p-8 shadow-sm transition duration-300 hover:-translate-y-2 hover:border-orange-300 hover:shadow-xl">
+
+            <div
+                class="flex h-16 w-16 items-center justify-center rounded-2xl bg-linear-to-r from-orange-500 to-blue-600 text-3xl text-white">
+
+                ❓
+
+            </div>
+
+            <h4
+                class="mt-6 text-xl font-bold text-slate-900">
+
+                {{ card.question }}
+
+            </h4>
+
+            <div
+                class="my-6 h-px bg-slate-200">
+
+            </div>
+
+            <p
+                class="leading-7 text-slate-600">
+
+                {{ card.answer }}
+
+            </p>
+
+        </div>
+
+        }
+
+    </div>
+
+    <div
+        class="mt-12 rounded-2xl border border-orange-200 bg-orange-50 p-6">
+
+        <h4
+            class="text-xl font-bold text-slate-900">
+
+            Why Flashcards?
+
+        </h4>
+
+        <div
+            class="mt-5 grid gap-4 md:grid-cols-2">
+
+            <div>✅ Better Memory Retention</div>
+
+            <div>✅ Active Recall Learning</div>
+
+            <div>✅ Faster Revision</div>
+
+            <div>✅ Perfect Before Exams</div>
+
+        </div>
+
+    </div>
+
+</div>

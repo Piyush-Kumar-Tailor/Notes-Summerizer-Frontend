@@ -1,0 +1,42 @@
+<div
+    class="overflow-hidden rounded-3xl border border-orange-100 bg-linear-to-br from-white via-orange-50/30 to-white shadow-lg">
+
+    @if(selectedComponent){
+
+    <ng-container
+        *ngComponentOutlet="selectedComponent">
+    </ng-container>
+
+    }
+
+    @else{
+
+    <div class="p-12 text-center">
+
+        <div
+            class="mx-auto flex h-20 w-20 items-center justify-center rounded-full bg-orange-100 text-4xl">
+
+            🚀
+
+        </div>
+
+        <h3
+            class="mt-6 text-3xl font-bold text-slate-900">
+
+            Feature Coming Soon
+
+        </h3>
+
+        <p
+            class="mx-auto mt-4 max-w-xl text-slate-600">
+
+            We're actively working on this feature.
+            It will be available in a future update.
+
+        </p>
+
+    </div>
+
+    }
+
+</div>
