@@ -1,6 +1,8 @@
 import {
   Component,
   Input,
+  Output,
+  EventEmitter,
   OnChanges,
   SimpleChanges,
   computed,
@@ -18,64 +20,120 @@ import { QuizQuestion } from '../../models/summary-model';
 })
 export class QuizComponent implements OnChanges {
 
+  // =====================================================
+  // Input
+  // =====================================================
+
   @Input({ required: true })
-  quiz: QuizQuestion[] = [];
-
-  readonly optionLabels = ['A', 'B', 'C', 'D'];
+  quiz: QuizQuestion[] | undefined = [];
 
 
-  /**
-   * Stores selected answer for each question.
-   * Key = Question Index
-   * Value = Selected Option
-   */
-  readonly selectedAnswers = signal<Record<number, string>>({});
+  // =====================================================
+  // Generate New Quiz Event
+  // =====================================================
 
-  /**
-   * Indicates whether the quiz has been submitted.
-   */
-  readonly submitted = signal(false);
+  @Output()
+  generateNewQuiz = new EventEmitter<void>();
 
-  /**
-   * Number of answered questions.
-   */
-  readonly answeredCount = computed(() =>
-    Object.keys(this.selectedAnswers()).length
-  );
 
-  /**
-   * Completion percentage.
-   */
+  // =====================================================
+  // Loading State
+  // =====================================================
+
+  @Input()
+  generatingNewQuiz = false;
+
+
+  // =====================================================
+  // Constants
+  // =====================================================
+
+  readonly optionLabels = [
+    'A',
+    'B',
+    'C',
+    'D'
+  ];
+
+
+  // =====================================================
+  // Quiz State
+  // =====================================================
+
+  readonly selectedAnswers =
+    signal<Record<number, string>>({});
+
+  readonly submitted =
+    signal(false);
+
+
+  // =====================================================
+  // Answered Count
+  // =====================================================
+
+  readonly answeredCount = computed(() => {
+
+    return Object.keys(
+      this.selectedAnswers()
+    ).length;
+
+  });
+
+
+  // =====================================================
+  // Completion
+  // =====================================================
+
   readonly completion = computed(() => {
 
-    if (this.quiz.length === 0) {
+    const totalQuestions =
+      this.quiz?.length ?? 0;
+
+    if (totalQuestions === 0) {
       return 0;
     }
 
     return Math.round(
-      (this.answeredCount() / this.quiz.length) * 100
+      (this.answeredCount() / totalQuestions) * 100
     );
 
   });
 
-  /**
-   * Quiz score.
-   */
+
+  // =====================================================
+  // Score
+  // =====================================================
+
   readonly score = computed(() => {
 
-    const answers = this.selectedAnswers();
+    const answers =
+      this.selectedAnswers();
 
-    return this.quiz.reduce((score, question, index) => {
+    const questions =
+      this.quiz ?? [];
 
-      return answers[index] === question.correctAnswer
-        ? score + 1
-        : score;
+    return questions.reduce(
+      (score, question, index) => {
 
-    }, 0);
+        return answers[index] ===
+          question.correctAnswer
+          ? score + 1
+          : score;
+
+      },
+      0
+    );
 
   });
 
-  ngOnChanges(changes: SimpleChanges): void {
+
+  // =====================================================
+  // Input Changes
+  // =====================================================
+
+  ngOnChanges(
+    changes: SimpleChanges
+  ): void {
 
     if (changes['quiz']) {
 
@@ -85,41 +143,60 @@ export class QuizComponent implements OnChanges {
 
   }
 
-  /**
-   * Select answer.
-   */
+
+  // =====================================================
+  // Select Answer
+  // =====================================================
+
   selectAnswer(
     questionIndex: number,
     answer: string
   ): void {
 
-    if (this.submitted()) {
-      return;
-    }
-
     if (
-      questionIndex < 0 ||
-      questionIndex >= this.quiz.length
+      this.submitted() ||
+      this.generatingNewQuiz
     ) {
       return;
     }
 
-    this.selectedAnswers.update(current => ({
+    const questions =
+      this.quiz ?? [];
 
-      ...current,
+    if (
+      questionIndex < 0 ||
+      questionIndex >= questions.length
+    ) {
+      return;
+    }
 
-      [questionIndex]: answer
-
-    }));
+    this.selectedAnswers.update(
+      current => ({
+        ...current,
+        [questionIndex]: answer
+      })
+    );
 
   }
 
-  /**
-   * Submit quiz.
-   */
+
+  // =====================================================
+  // Submit Quiz
+  // =====================================================
+
   submitQuiz(): void {
 
-    if (this.answeredCount() === 0) {
+    const totalQuestions =
+      this.quiz?.length ?? 0;
+
+    if (totalQuestions === 0) {
+      return;
+    }
+
+    if (
+      this.answeredCount() !==
+      totalQuestions
+    ) {
       return;
     }
 
@@ -127,9 +204,11 @@ export class QuizComponent implements OnChanges {
 
   }
 
-  /**
-   * Reset quiz.
-   */
+
+  // =====================================================
+  // Reset Quiz
+  // =====================================================
+
   resetQuiz(): void {
 
     this.selectedAnswers.set({});
@@ -138,31 +217,58 @@ export class QuizComponent implements OnChanges {
 
   }
 
-  /**
-   * Check whether a question has been answered.
-   */
-  isAnswered(index: number): boolean {
 
-    return this.selectedAnswers()[index] !== undefined;
+  // =====================================================
+  // Generate New Quiz
+  // =====================================================
+
+  requestNewQuiz(): void {
+
+    if (this.generatingNewQuiz) {
+      return;
+    }
+
+    this.generateNewQuiz.emit();
 
   }
 
-  /**
-   * Returns selected answer for a question.
-   */
-  getSelectedAnswer(index: number): string | undefined {
+
+  // =====================================================
+  // Answer Helpers
+  // =====================================================
+
+  isAnswered(
+    index: number
+  ): boolean {
+
+    return this.selectedAnswers()[index]
+      !== undefined;
+
+  }
+
+
+  getSelectedAnswer(
+    index: number
+  ): string | undefined {
 
     return this.selectedAnswers()[index];
 
   }
 
-  /**
-   * Returns whether the selected answer is correct.
-   */
-  isCorrect(index: number): boolean {
+
+  isCorrect(
+    index: number
+  ): boolean {
+
+    const question =
+      this.quiz?.[index];
+
+    if (!question) {
+      return false;
+    }
 
     return this.getSelectedAnswer(index) ===
-      this.quiz[index].correctAnswer;
+      question.correctAnswer;
 
   }
 

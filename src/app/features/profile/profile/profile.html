@@ -1,81 +1,110 @@
-<div class="relative min-h-screen overflow-hidden bg-linear-to-b from-slate-50 via-orange-50/20 to-white py-12">
+<div
+    class="relative min-h-screen overflow-hidden bg-linear-to-b from-slate-50 via-orange-50/20 to-white py-6 sm:py-10 lg:py-12">
 
     <!-- Background -->
 
-    <div class="pointer-events-none absolute inset-0 overflow-hidden">
+    <div
+        class="pointer-events-none absolute inset-0 overflow-hidden">
 
         <div
-            class="absolute left-1/2 top-0 h-128 w-lg -translate-x-1/2 rounded-full bg-orange-400/15 blur-[170px]">
+            class="absolute left-1/2 top-0 h-64 w-64 -translate-x-1/2 rounded-full bg-orange-400/15 blur-[120px] sm:h-96 sm:w-96 sm:blur-[170px]">
         </div>
 
         <div
-            class="absolute -left-32 top-40 h-80 w-80 rounded-full bg-orange-300/10 blur-[160px]">
+            class="absolute -left-32 top-40 h-64 w-64 rounded-full bg-orange-300/10 blur-[130px] sm:h-80 sm:w-80 sm:blur-[160px]">
         </div>
 
         <div
-            class="absolute right-0 bottom-0 h-72 w-72 rounded-full bg-blue-300/10 blur-[180px]">
+            class="absolute -bottom-20 -right-20 h-64 w-64 rounded-full bg-blue-300/10 blur-[140px] sm:h-72 sm:w-72 sm:blur-[180px]">
         </div>
 
     </div>
 
-    <div class="relative mx-auto max-w-7xl px-6">
 
-        <!-- ========================= -->
+    <!-- Main Container -->
+
+    <main
+        class="relative mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">
+
+
         <!-- Loading -->
-        <!-- ========================= -->
 
         @if (loading()) {
 
-        <div class="flex min-h-[70vh] items-center justify-center">
+        <section
+            class="flex min-h-[75vh] items-center justify-center">
 
-            <div class="text-center">
+            <div
+                class="w-full max-w-sm rounded-3xl border border-white/70 bg-white/80 p-8 text-center shadow-xl backdrop-blur-xl">
 
-                <div
-                    class="mx-auto h-14 w-14 animate-spin rounded-full border-4 border-orange-500 border-t-transparent">
+                <!-- Spinner -->
+
+                <div class="relative mx-auto h-16 w-16">
+
+                    <div
+                        class="absolute inset-0 rounded-full border-4 border-orange-100">
+                    </div>
+
+                    <div
+                        class="absolute inset-0 animate-spin rounded-full border-4 border-transparent border-t-orange-500 border-r-blue-600">
+                    </div>
+
+                    <div
+                        class="absolute inset-2 flex items-center justify-center rounded-full bg-linear-to-br from-orange-500 to-blue-600 text-xl">
+
+                        👤
+
+                    </div>
+
                 </div>
 
-                <h2 class="mt-6 text-2xl font-bold text-slate-900">
+                <h2
+                    class="mt-6 text-xl font-bold text-slate-900 sm:text-2xl">
 
                     Loading Profile...
 
                 </h2>
 
-                <p class="mt-2 text-slate-600">
+                <p
+                    class="mt-2 text-sm leading-6 text-slate-500">
 
-                    Please wait while we fetch your information.
+                    Please wait while we securely fetch your information.
 
                 </p>
 
             </div>
 
-        </div>
+        </section>
 
         }
 
-        <!-- ========================= -->
+
         <!-- Error -->
-        <!-- ========================= -->
 
         @else if(error()) {
 
-        <div class="flex min-h-[70vh] items-center justify-center">
+        <section
+            class="flex min-h-[75vh] items-center justify-center px-2">
 
             <div
-                class="max-w-lg rounded-3xl border border-red-200 bg-white p-10 text-center shadow-xl">
+                class="w-full max-w-lg rounded-3xl border border-red-200 bg-white p-6 text-center shadow-xl sm:p-10">
 
-                <div class="text-6xl">
+                <div
+                    class="mx-auto flex h-16 w-16 items-center justify-center rounded-2xl bg-red-50 text-4xl">
 
                     ⚠️
 
                 </div>
 
-                <h2 class="mt-6 text-3xl font-bold text-red-600">
+                <h2
+                    class="mt-6 text-2xl font-bold text-red-600 sm:text-3xl">
 
                     Something went wrong
 
                 </h2>
 
-                <p class="mt-4 text-slate-600">
+                <p
+                    class="mt-4 text-sm leading-6 text-slate-600 sm:text-base">
 
                     {{ error() }}
 
@@ -83,44 +112,54 @@
 
                 <button
 
+                    type="button"
+
                     (click)="loadProfile()"
 
-                    class="mt-8 rounded-xl bg-orange-500 px-6 py-3 font-semibold text-white transition hover:bg-orange-600">
+                    class="mt-7 inline-flex min-h-11 items-center justify-center rounded-xl bg-orange-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-orange-500/20 transition hover:bg-orange-600 hover:shadow-xl sm:text-base">
 
-                    Retry
+                    Try Again
 
                 </button>
 
             </div>
 
-        </div>
+        </section>
 
         }
 
-        <!-- ========================= -->
-        <!-- Profile -->
-        <!-- ========================= -->
 
-        @else if(user(); as profile){
+        <!-- Profile -->
+
+        @else if(user(); as profile) {
+
 
         <!-- Hero -->
 
-        <div class="text-center">
+        <section
+            class="pt-4 text-center sm:pt-6 lg:pt-8">
+
+            <!-- Badge -->
 
             <span
-                class="inline-flex items-center rounded-full border border-orange-200 bg-white px-5 py-2 text-sm font-semibold text-orange-600 shadow">
+                class="inline-flex items-center gap-2 rounded-full border border-orange-200 bg-white/80 px-4 py-2 text-xs font-semibold text-orange-600 shadow-sm backdrop-blur-xl sm:px-5 sm:text-sm">
 
-                👤 My Account
+                <span>👤</span>
+
+                <span>My Account</span>
 
             </span>
 
+
+            <!-- Heading -->
+
             <h1
-                class="mt-6 text-4xl font-black text-slate-900 lg:text-5xl">
+                class="mt-5 text-3xl font-black tracking-tight text-slate-900 sm:mt-6 sm:text-4xl lg:text-5xl">
 
                 Welcome,
 
                 <span
-                    class="bg-linear-to-r from-orange-500 via-orange-400 to-blue-600 bg-clip-text text-transparent">
+                    class="block bg-linear-to-r from-orange-500 via-orange-400 to-blue-600 bg-clip-text text-transparent sm:inline">
 
                     {{ profile.fullName }}
 
@@ -128,64 +167,90 @@
 
             </h1>
 
+
+            <!-- Description -->
+
             <p
-                class="mx-auto mt-5 max-w-2xl text-lg text-slate-600">
+                class="mx-auto mt-4 max-w-xl text-sm leading-6 text-slate-600 sm:mt-5 sm:text-base lg:text-lg">
 
                 Manage your profile, security and account settings from one place.
 
             </p>
 
-        </div>
+        </section>
 
-        <!-- Content -->
 
-        <div class="mt-14 grid gap-8 lg:grid-cols-[340px_1fr]">
+        <!-- Main Grid -->
 
-            <!-- Left Card -->
+        <div
+            class="mt-8 grid gap-6 sm:mt-10 sm:gap-8 lg:mt-14 lg:grid-cols-[320px_minmax(0,1fr)] xl:grid-cols-[340px_minmax(0,1fr)]">
 
-            <div
-                class="overflow-hidden rounded-4xl border border-white/40 bg-white/80 shadow-[0_25px_60px_rgba(15,23,42,.08)] backdrop-blur-xl">
+
+            <!-- Profile Card -->
+
+            <section
+                class="overflow-hidden rounded-3xl border border-white/50 bg-white/80 shadow-[0_20px_50px_rgba(15,23,42,.08)] backdrop-blur-xl">
+
+                <!-- Gradient Header -->
 
                 <div
-                    class="h-28 bg-linear-to-r from-orange-500 via-orange-400 to-blue-600">
+                    class="h-24 bg-linear-to-r from-orange-500 via-orange-400 to-blue-600 sm:h-28">
                 </div>
 
+
+                <!-- Profile -->
+
                 <div
-                    class="-mt-14 flex flex-col items-center px-8 pb-8">
+                    class="-mt-12 flex flex-col items-center px-5 pb-7 sm:-mt-14 sm:px-8 sm:pb-8">
+
+
+                    <!-- Avatar -->
 
                     <div
-                        class="flex h-28 w-28 items-center justify-center rounded-full border-4 border-white bg-linear-to-r from-orange-500 to-blue-600 text-4xl font-black text-white shadow-xl">
+                        class="flex h-24 w-24 items-center justify-center rounded-full border-4 border-white bg-linear-to-br from-orange-500 to-blue-600 text-3xl font-black text-white shadow-xl sm:h-28 sm:w-28 sm:text-4xl">
 
                         {{ userInitial() }}
 
                     </div>
 
+
+                    <!-- Name -->
+
                     <h2
-                        class="mt-5 text-2xl font-bold text-slate-900">
+                        class="mt-4 max-w-full truncate px-2 text-center text-xl font-bold text-slate-900 sm:mt-5 sm:text-2xl">
 
                         {{ profile.fullName }}
 
                     </h2>
 
+
+                    <!-- Email -->
+
                     <p
-                        class="mt-1 text-slate-500">
+                        class="mt-1 max-w-full truncate px-2 text-center text-xs text-slate-500 sm:text-sm"
+                        [title]="profile.email">
 
                         {{ profile.email }}
 
                     </p>
 
+
+                    <!-- Stats -->
+
                     <div
-                        class="mt-8 grid w-full grid-cols-3 gap-4 text-center">
+                        class="mt-7 grid w-full grid-cols-3 divide-x divide-slate-200 rounded-2xl bg-slate-50 py-4">
 
-                        <div>
+                        <div class="px-2 text-center">
 
-                            <h3 class="text-xl font-black text-slate-900">
+                            <h3
+                                class="text-lg font-black text-slate-900 sm:text-xl">
 
                                 {{ profile.summaries }}
 
                             </h3>
 
-                            <p class="text-xs text-slate-500">
+                            <p
+                                class="mt-1 text-[10px] font-medium text-slate-500 sm:text-xs">
 
                                 Summaries
 
@@ -193,15 +258,18 @@
 
                         </div>
 
-                        <div>
 
-                            <h3 class="text-xl font-black text-slate-900">
+                        <div class="px-2 text-center">
+
+                            <h3
+                                class="text-lg font-black text-slate-900 sm:text-xl">
 
                                 AI
 
                             </h3>
 
-                            <p class="text-xs text-slate-500">
+                            <p
+                                class="mt-1 text-[10px] font-medium text-slate-500 sm:text-xs">
 
                                 Powered
 
@@ -209,15 +277,18 @@
 
                         </div>
 
-                        <div>
 
-                            <h3 class="text-xl font-black text-slate-900">
+                        <div class="px-2 text-center">
+
+                            <h3
+                                class="text-lg font-black text-slate-900 sm:text-xl">
 
                                 100%
 
                             </h3>
 
-                            <p class="text-xs text-slate-500">
+                            <p
+                                class="mt-1 text-[10px] font-medium text-slate-500 sm:text-xs">
 
                                 Secure
 
@@ -229,43 +300,78 @@
 
                 </div>
 
-            </div>
+            </section>
 
-            <!-- Right -->
 
-            <div class="space-y-8">
+            <!-- Right Content -->
 
-                <!-- Account -->
+            <div class="min-w-0 space-y-6 sm:space-y-8">
 
-                <div
-                    class="rounded-[30px] border border-white/40 bg-white/80 shadow-[0_20px_50px_rgba(15,23,42,.08)] backdrop-blur-xl">
+
+                <!-- Account Information -->
+
+                <section
+                    class="overflow-hidden rounded-3xl border border-white/50 bg-white/80 shadow-[0_20px_50px_rgba(15,23,42,.08)] backdrop-blur-xl">
+
+
+                    <!-- Header -->
 
                     <div
-                        class="border-b border-slate-200 px-8 py-6">
+                        class="border-b border-slate-200 px-5 py-5 sm:px-8 sm:py-6">
 
-                        <h2
-                            class="text-2xl font-bold text-slate-900">
+                        <div
+                            class="flex items-center gap-3">
 
-                            Account Information
+                            <div
+                                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-orange-50 text-xl">
 
-                        </h2>
+                                📋
+
+                            </div>
+
+                            <div>
+
+                                <h2
+                                    class="text-xl font-bold text-slate-900 sm:text-2xl">
+
+                                    Account Information
+
+                                </h2>
+
+                                <p
+                                    class="mt-0.5 text-xs text-slate-500 sm:text-sm">
+
+                                    Your account details
+
+                                </p>
+
+                            </div>
+
+                        </div>
 
                     </div>
 
+
+                    <!-- Information -->
+
                     <div
-                        class="grid gap-6 p-8 md:grid-cols-2">
+                        class="grid gap-4 p-5 sm:grid-cols-2 sm:gap-6 sm:p-8">
+
+
+                        <!-- Name -->
 
                         <div
-                            class="rounded-2xl bg-slate-50 p-5">
+                            class="min-w-0 rounded-2xl border border-slate-100 bg-slate-50 p-4 sm:p-5">
 
-                            <p class="text-sm text-slate-500">
+                            <p
+                                class="text-xs font-medium uppercase tracking-wide text-slate-400">
 
                                 Full Name
 
                             </p>
 
                             <h3
-                                class="mt-2 text-lg font-semibold">
+                                class="mt-2 truncate text-base font-semibold text-slate-900 sm:text-lg">
 
                                 {{ profile.fullName }}
 
@@ -273,17 +379,22 @@
 
                         </div>
 
-                        <div
-                            class="rounded-2xl bg-slate-50 p-5">
 
-                            <p class="text-sm text-slate-500">
+                        <!-- Email -->
+
+                        <div
+                            class="min-w-0 rounded-2xl border border-slate-100 bg-slate-50 p-4 sm:p-5">
+
+                            <p
+                                class="text-xs font-medium uppercase tracking-wide text-slate-400">
 
                                 Email
 
                             </p>
 
                             <h3
-                                class="mt-2 text-lg font-semibold">
+                                class="mt-2 truncate text-base font-semibold text-slate-900 sm:text-lg"
+                                [title]="profile.email">
 
                                 {{ profile.email }}
 
@@ -291,17 +402,21 @@
 
                         </div>
 
-                        <div
-                            class="rounded-2xl bg-slate-50 p-5">
 
-                            <p class="text-sm text-slate-500">
+                        <!-- Summaries -->
+
+                        <div
+                            class="rounded-2xl border border-slate-100 bg-slate-50 p-4 sm:p-5">
+
+                            <p
+                                class="text-xs font-medium uppercase tracking-wide text-slate-400">
 
                                 AI Summaries
 
                             </p>
 
                             <h3
-                                class="mt-2 text-lg font-semibold">
+                                class="mt-2 text-base font-semibold text-slate-900 sm:text-lg">
 
                                 {{ profile.summaries }}
 
@@ -309,17 +424,21 @@
 
                         </div>
 
-                        <div
-                            class="rounded-2xl bg-slate-50 p-5">
 
-                            <p class="text-sm text-slate-500">
+                        <!-- Member -->
+
+                        <div
+                            class="rounded-2xl border border-slate-100 bg-slate-50 p-4 sm:p-5">
+
+                            <p
+                                class="text-xs font-medium uppercase tracking-wide text-slate-400">
 
                                 Member Since
 
                             </p>
 
                             <h3
-                                class="mt-2 text-lg font-semibold">
+                                class="mt-2 text-base font-semibold text-slate-900 sm:text-lg">
 
                                 {{ profile.memberSince }}
 
@@ -329,27 +448,44 @@
 
                     </div>
 
-                </div>
+                </section>
+
 
                 <!-- Security Card -->
 
-                <div
-                    class="rounded-[30px] border border-white/50 bg-linear-to-r from-orange-500 via-orange-400 to-blue-600 p-8 text-white shadow-xl">
+                <section
+                    class="overflow-hidden rounded-3xl bg-linear-to-br from-orange-500 via-orange-400 to-blue-600 p-5 text-white shadow-xl shadow-orange-500/10 sm:p-8">
+
 
                     <div
-                        class="flex items-center justify-between">
+                        class="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
 
-                        <div>
 
-                            <h2
-                                class="text-2xl font-bold">
+                        <!-- Text -->
 
-                                Account Security
+                        <div class="min-w-0">
 
-                            </h2>
+                            <div
+                                class="flex items-center gap-3">
+
+                                <div
+                                    class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-white/15 text-xl backdrop-blur-sm">
+
+                                    🔐
+
+                                </div>
+
+                                <h2
+                                    class="text-xl font-bold sm:text-2xl">
+
+                                    Account Security
+
+                                </h2>
+
+                            </div>
 
                             <p
-                                class="mt-2 text-white/80">
+                                class="mt-3 max-w-xl text-sm leading-6 text-white/80 sm:text-base">
 
                                 Keep your account secure by changing your password regularly.
 
@@ -357,7 +493,11 @@
 
                         </div>
 
-                        <div class="text-6xl">
+
+                        <!-- Icon -->
+
+                        <div
+                            class="hidden shrink-0 text-5xl sm:block lg:text-6xl">
 
                             🔐
 
@@ -365,24 +505,34 @@
 
                     </div>
 
+
+                    <!-- Button -->
+
                     <a
 
                         routerLink="/profile/change-password"
 
-                        class="mt-8 inline-flex items-center gap-3 rounded-2xl bg-white px-7 py-4 font-semibold text-orange-600 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:scale-[1.02]">
+                        class="mt-6 inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-white px-5 py-3 text-sm font-bold text-orange-600 shadow-lg transition-all duration-300 hover:-translate-y-0.5 hover:shadow-xl sm:mt-8 sm:w-auto sm:px-7 sm:py-4 sm:text-base">
 
-                        Change Password →
+                        Change Password
+
+                        <span>→</span>
 
                     </a>
 
-                </div>
+                </section>
 
             </div>
 
         </div>
 
+
+        <!-- Bottom spacing -->
+
+        <div class="h-8 sm:h-12"></div>
+
         }
 
-    </div>
+    </main>
 
 </div>

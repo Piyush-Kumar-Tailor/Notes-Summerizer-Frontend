@@ -40,31 +40,77 @@ import { Summary } from './models/summary-model';
 })
 export class SummaryComponent implements OnInit {
 
-  private readonly summaryService = inject(SummaryService);
+  // =====================================================
+  // Services
+  // =====================================================
 
-  private readonly route = inject(ActivatedRoute);
+  private readonly summaryService =
+    inject(SummaryService);
 
-  private readonly destroyRef = inject(DestroyRef);
+  private readonly route =
+    inject(ActivatedRoute);
 
-  readonly summary = signal<Summary | null>(null);
+  private readonly destroyRef =
+    inject(DestroyRef);
 
-  readonly loading = signal(true);
 
-  readonly error = signal('');
+  // =====================================================
+  // Summary State
+  // =====================================================
 
-  readonly showHero = signal(false);
+  readonly summary =
+    signal<Summary | null>(null);
 
-  readonly showSummary = signal(false);
+  readonly loading =
+    signal(true);
 
-  readonly showKeyPoints = signal(false);
+  readonly error =
+    signal('');
 
-  readonly showFlashcards = signal(false);
 
-  readonly showQuiz = signal(false);
+  // =====================================================
+  // Section Visibility
+  // =====================================================
 
-  readonly showInterview = signal(false);
+  readonly showHero =
+    signal(false);
 
-  readonly showExport = signal(false);
+  readonly showSummary =
+    signal(false);
+
+  readonly showKeyPoints =
+    signal(false);
+
+  readonly showFlashcards =
+    signal(false);
+
+  readonly showQuiz =
+    signal(false);
+
+  readonly showInterview =
+    signal(false);
+
+  readonly showExport =
+    signal(false);
+
+
+  // =====================================================
+  // Quiz State
+  // =====================================================
+
+  /**
+   * True while Gemini is generating a new quiz.
+   *
+   * This value is passed to QuizComponent so that
+   * the Generate New Quiz button can show a spinner.
+   */
+  readonly quizLoading =
+    signal(false);
+
+
+  // =====================================================
+  // Initialization
+  // =====================================================
 
   ngOnInit(): void {
 
@@ -74,11 +120,17 @@ export class SummaryComponent implements OnInit {
       )
       .subscribe(params => {
 
-        const summaryId = Number(params.get('id'));
+        const summaryId =
+          Number(params.get('id'));
 
-        if (isNaN(summaryId)) {
+        if (
+          !summaryId ||
+          isNaN(summaryId)
+        ) {
 
-          this.error.set('Invalid summary id.');
+          this.error.set(
+            'Invalid summary id.'
+          );
 
           this.loading.set(false);
 
@@ -92,7 +144,14 @@ export class SummaryComponent implements OnInit {
 
   }
 
-  private loadSummary(summaryId: number): void {
+
+  // =====================================================
+  // Load Summary
+  // =====================================================
+
+  private loadSummary(
+    summaryId: number
+  ): void {
 
     this.loading.set(true);
 
@@ -100,7 +159,10 @@ export class SummaryComponent implements OnInit {
 
     this.error.set('');
 
+    this.quizLoading.set(false);
+
     this.resetSections();
+
 
     this.summaryService
       .getSummary(summaryId)
@@ -109,7 +171,16 @@ export class SummaryComponent implements OnInit {
       )
       .subscribe({
 
+        // -----------------------------------------------
+        // Success
+        // -----------------------------------------------
+
         next: summary => {
+
+          console.log(
+            'Summary loaded:',
+            summary
+          );
 
           this.summary.set(summary);
 
@@ -119,9 +190,17 @@ export class SummaryComponent implements OnInit {
 
         },
 
+
+        // -----------------------------------------------
+        // Error
+        // -----------------------------------------------
+
         error: error => {
 
-          console.error(error);
+          console.error(
+            'Failed to load summary:',
+            error
+          );
 
           this.loading.set(false);
 
@@ -138,6 +217,159 @@ export class SummaryComponent implements OnInit {
       });
 
   }
+
+
+  // =====================================================
+  // Generate New Quiz
+  // =====================================================
+
+  generateNewQuiz(): void {
+
+    const currentSummary =
+      this.summary();
+
+
+    // -----------------------------------------------
+    // Make sure summary exists
+    // -----------------------------------------------
+
+    if (!currentSummary) {
+
+      console.error(
+        'Cannot generate quiz: summary not available.'
+      );
+
+      return;
+
+    }
+
+
+    // -----------------------------------------------
+    // Prevent duplicate requests
+    // -----------------------------------------------
+
+    if (this.quizLoading()) {
+
+      return;
+
+    }
+
+
+    // -----------------------------------------------
+    // Start loading
+    // -----------------------------------------------
+
+    this.quizLoading.set(true);
+
+
+    // -----------------------------------------------
+    // Generate quiz
+    // -----------------------------------------------
+
+    this.summaryService
+      .generateQuiz(
+        currentSummary.id,
+        10
+      )
+      .pipe(
+        takeUntilDestroyed(this.destroyRef)
+      )
+      .subscribe({
+
+        // =============================================
+        // Success
+        // =============================================
+
+        next: newQuiz => {
+
+          console.log(
+            'New quiz generated:',
+            newQuiz
+          );
+
+
+          // -------------------------------------------
+          // Validate response
+          // -------------------------------------------
+
+          if (
+            !newQuiz ||
+            newQuiz.length === 0
+          ) {
+
+            console.warn(
+              'Backend returned an empty quiz.'
+            );
+
+            this.quizLoading.set(false);
+
+            return;
+
+          }
+
+
+          // -------------------------------------------
+          // Update only quiz
+          // -------------------------------------------
+
+          this.summary.update(
+            current => {
+
+              if (!current) {
+                return current;
+              }
+
+              return {
+                ...current,
+                quiz: newQuiz
+              };
+
+            }
+          );
+
+
+          // -------------------------------------------
+          // Stop loading
+          // -------------------------------------------
+
+          this.quizLoading.set(false);
+
+        },
+
+
+        // =============================================
+        // Error
+        // =============================================
+
+        error: error => {
+
+          console.error(
+            'Failed to generate new quiz:',
+            error
+          );
+
+          this.quizLoading.set(false);
+
+          /*
+           * You can later replace this with a
+           * proper toast/notification.
+           */
+
+          this.error.set(
+            error?.error?.message ??
+            'Unable to generate a new quiz. Please try again.'
+          );
+
+        }
+
+      });
+
+  }
+
+
+  // =====================================================
+  // Reset Sections
+  // =====================================================
 
   private resetSections(): void {
 
@@ -157,9 +389,15 @@ export class SummaryComponent implements OnInit {
 
   }
 
+
+  // =====================================================
+  // Reveal Sections
+  // =====================================================
+
   private revealSections(): void {
 
     this.showHero.set(true);
+
 
     setTimeout(() => {
 
@@ -167,11 +405,13 @@ export class SummaryComponent implements OnInit {
 
     }, 100);
 
+
     setTimeout(() => {
 
       this.showKeyPoints.set(true);
 
     }, 200);
+
 
     setTimeout(() => {
 
@@ -179,17 +419,20 @@ export class SummaryComponent implements OnInit {
 
     }, 300);
 
+
     setTimeout(() => {
 
       this.showQuiz.set(true);
 
     }, 400);
 
+
     setTimeout(() => {
 
       this.showInterview.set(true);
 
     }, 500);
+
 
     setTimeout(() => {
 

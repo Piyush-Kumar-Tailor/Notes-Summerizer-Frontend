@@ -14,8 +14,7 @@
 
 @else if (error()) {
 
-<section
-    class="mx-auto mt-16 max-w-3xl rounded-3xl border border-red-200 bg-red-50 p-10 text-center shadow-lg">
+<section class="mx-auto mt-16 max-w-3xl rounded-3xl border border-red-200 bg-red-50 p-10 text-center shadow-lg">
 
     <div class="text-6xl">
         ❌
@@ -39,8 +38,7 @@
 
 @else if(summary()) {
 
-<div
-    class="mx-auto max-w-7xl space-y-10 px-6 py-10 fade-in">
+<div class="mx-auto max-w-7xl space-y-10 px-6 py-10 mt-20 fade-in">
 
     <!-- Hero -->
 
@@ -48,8 +46,7 @@
 
     <div class="fade-up summary-card">
 
-        <app-summary-hero
-            [summary]="summary()!">
+        <app-summary-hero [summary]="summary()!">
         </app-summary-hero>
 
     </div>
@@ -62,8 +59,7 @@
 
     <div class="fade-up summary-card">
 
-        <app-summary-content
-            [summary]="summary()?.summary">
+        <app-summary-content [summary]="summary()?.summary">
         </app-summary-content>
 
     </div>
@@ -76,8 +72,7 @@
 
     <div class="fade-up summary-card">
 
-        <app-key-points
-            [keyPoints]="summary()!.keyPoints">
+        <app-key-points [keyPoints]="summary()!.keyPoints">
         </app-key-points>
 
     </div>
@@ -90,8 +85,7 @@
 
     <div class="fade-up summary-card">
 
-        <app-flashcards
-            [flashcards]="summary()!.flashcards">
+        <app-flashcards [flashcards]="summary()!.flashcards">
         </app-flashcards>
 
     </div>
@@ -104,9 +98,17 @@
 
     <div class="fade-up summary-card">
 
-        <app-quiz
-            [quiz]="summary()!.quiz">
-        </app-quiz>
+        @if (showQuiz()) {
+
+        <section class="animate-fade-in">
+
+            <app-quiz [quiz]="summary()?.quiz" [generatingNewQuiz]="quizLoading()"
+                (generateNewQuiz)="generateNewQuiz()">
+            </app-quiz>
+
+        </section>
+
+        }
 
     </div>
 
@@ -118,8 +120,7 @@
 
     <div class="fade-up summary-card">
 
-        <app-interview-questions
-            [interviewQuestions]="summary()!.interviewQuestions">
+        <app-interview-questions [interviewQuestions]="summary()!.interviewQuestions">
         </app-interview-questions>
 
     </div>
@@ -132,8 +133,7 @@
 
     <div class="fade-up summary-card">
 
-        <app-export
-            [summary]="summary()!">
+        <app-export [summary]="summary()!">
         </app-export>
 
     </div>
