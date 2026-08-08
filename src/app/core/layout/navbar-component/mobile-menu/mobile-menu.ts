@@ -1,48 +1,115 @@
-import { Component, EventEmitter, Output, inject } from '@angular/core';
-import { Router, RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  OnInit,
+  inject,
+  computed,
+  signal
+} from '@angular/core';
+
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive
+} from '@angular/router';
 
 import { AuthService } from '../../../../features/auth/services/auth-service';
+import { UserService } from '../../../../features/profile/services/user.service';
+import { UserProfile } from '../../../../features/profile/models/user-profile';
 
 interface NavLink {
-
   label: string;
-
   path: string;
-
   icon: string;
-
   exact: boolean;
-
 }
 
 @Component({
   selector: 'app-mobile-menu',
   standalone: true,
+
   imports: [
     RouterLink,
     RouterLinkActive
   ],
+
   templateUrl: './mobile-menu.html',
   styleUrl: './mobile-menu.css'
 })
-export class MobileMenuComponent {
+export class MobileMenuComponent implements OnInit {
+
+  // =====================================================
+  // Output
+  // =====================================================
 
   @Output()
-  menuClosed = new EventEmitter<void>();
+  menuClosed =
+    new EventEmitter<void>();
 
-  private readonly authService = inject(AuthService);
 
-  private readonly router = inject(Router);
+  // =====================================================
+  // Services
+  // =====================================================
 
-  userName = 'Piyush Kumar';
+  private readonly authService =
+    inject(AuthService);
 
-  email = 'piyush@example.com';
+  private readonly router =
+    inject(Router);
 
-  get userInitial(): string {
+  private readonly userService =
+    inject(UserService);
 
-    return this.userName.charAt(0).toUpperCase();
 
-  }
+  // =====================================================
+  // User State
+  // =====================================================
+
+  readonly user =
+    signal<UserProfile | null>(null);
+
+
+  // =====================================================
+  // User Name
+  // =====================================================
+
+  readonly userName = computed(() => {
+
+    return this.user()?.fullName ??
+      'User';
+
+  });
+
+
+  // =====================================================
+  // User Email
+  // =====================================================
+
+  readonly email = computed(() => {
+
+    return this.user()?.email ??
+      '';
+
+  });
+
+
+  // =====================================================
+  // User Initial
+  // =====================================================
+
+  readonly userInitial = computed(() => {
+
+    return this.userName()
+      .charAt(0)
+      .toUpperCase();
+
+  });
+
+
+  // =====================================================
+  // Navigation
+  // =====================================================
 
   readonly navLinks: NavLink[] = [
 
@@ -76,17 +143,70 @@ export class MobileMenuComponent {
 
   ];
 
+
+  // =====================================================
+  // Initialization
+  // =====================================================
+
+  ngOnInit(): void {
+
+    this.loadCurrentUser();
+
+  }
+
+
+  // =====================================================
+  // Load Current User
+  // =====================================================
+
+  private loadCurrentUser(): void {
+
+    this.userService
+      .getCurrentUser()
+      .subscribe({
+
+        next: profile => {
+
+          this.user.set(profile);
+
+        },
+
+        error: error => {
+
+          console.error(
+            'Failed to load current user:',
+            error
+          );
+
+        }
+
+      });
+
+  }
+
+
+  // =====================================================
+  // Close Menu
+  // =====================================================
+
   closeMenu(): void {
 
     this.menuClosed.emit();
 
   }
 
+
+  // =====================================================
+  // Logout
+  // =====================================================
+
   logout(): void {
 
     this.authService.logout();
 
-    this.router.navigate(['/auth/login']);
+    this.router.navigate([
+      '/auth/login'
+    ]);
 
     this.closeMenu();
 
