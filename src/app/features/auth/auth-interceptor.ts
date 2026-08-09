@@ -4,6 +4,7 @@ import {
 } from '@angular/common/http';
 
 import { inject } from '@angular/core';
+
 import { Router } from '@angular/router';
 
 import {
@@ -13,17 +14,28 @@ import {
 } from 'rxjs';
 
 import { TokenService } from './services/token-service';
+
 import { AuthService } from './services/auth-service';
 
-export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
-  const tokenService = inject(TokenService);
+export const authInterceptor: HttpInterceptorFn = (
+  req,
+  next
+) => {
 
-  const authService = inject(AuthService);
+  const tokenService =
+    inject(TokenService);
 
-  const router = inject(Router);
+  const authService =
+    inject(AuthService);
 
-  const token = tokenService.getAccessToken();
+  const router =
+    inject(Router);
+
+
+  // =====================================================
+  // Public Endpoints
+  // =====================================================
 
   const publicEndpoints = [
 
@@ -45,128 +57,226 @@ export const authInterceptor: HttpInterceptorFn = (req, next) => {
 
   ];
 
-  const isPublicRequest = publicEndpoints.some(endpoint =>
-    req.url.includes(endpoint)
-  );
+
+  // =====================================================
+  // Check Public Request
+  // =====================================================
+
+  const isPublicRequest =
+    publicEndpoints.some(endpoint =>
+      req.url.includes(endpoint)
+    );
+
 
   /*
-   * Public request
+   * Never attach authentication to public
+   * endpoints.
+   *
+   * Especially /refresh-token.
    */
+
   if (isPublicRequest) {
 
     return next(req);
 
   }
 
+
+  // =====================================================
+  // Get Access Token
+  // =====================================================
+
+  const accessToken =
+    tokenService.getAccessToken();
+
+
   /*
-   * No access token
+   * No access token.
+   *
+   * Let the request continue.
+   *
+   * The backend can return 401 if authentication
+   * is required.
    */
-  if (!token) {
+
+  if (!accessToken) {
 
     return next(req);
 
   }
 
-  /*
-   * Attach access token
-   */
-  const authenticatedRequest = req.clone({
 
-    setHeaders: {
+  // =====================================================
+  // Add Authorization Header
+  // =====================================================
 
-      Authorization: `Bearer ${token}`
+  const authenticatedRequest =
+    req.clone({
 
-    }
+      setHeaders: {
 
-  });
-
-  return next(authenticatedRequest).pipe(
-
-    catchError((error: HttpErrorResponse) => {
-
-      /*
-       * Access token expired
-       */
-      if (error.status === 401) {
-
-        console.log(
-          'Access token expired. Attempting refresh...'
-        );
-
-        return authService.refreshToken().pipe(
-
-          switchMap(() => {
-
-            const newAccessToken =
-              tokenService.getAccessToken();
-
-            /*
-             * Refresh succeeded but no new token
-             */
-            if (!newAccessToken) {
-
-              authService.logout();
-
-              router.navigate(['/auth/login']);
-
-              return throwError(() =>
-                new Error(
-                  'Access token refresh failed.'
-                )
-              );
-
-            }
-
-            /*
-             * Retry original request
-             */
-            const retryRequest = req.clone({
-
-              setHeaders: {
-
-                Authorization:
-                  `Bearer ${newAccessToken}`
-
-              }
-
-            });
-
-            console.log(
-              'Access token refreshed. Retrying request...'
-            );
-
-            return next(retryRequest);
-
-          }),
-
-          /*
-           * Refresh token also failed
-           */
-          catchError(refreshError => {
-
-            console.error(
-              'Refresh token failed:',
-              refreshError
-            );
-
-            authService.logout();
-
-            router.navigate(['/auth/login']);
-
-            return throwError(() =>
-              refreshError
-            );
-
-          })
-
-        );
+        Authorization:
+          `Bearer ${accessToken}`
 
       }
 
-      return throwError(() => error);
+    });
 
-    })
 
-  );
+  // =====================================================
+  // Send Request
+  // =====================================================
+
+  return next(
+    authenticatedRequest
+  )
+
+    .pipe(
+
+      catchError(
+        (error: HttpErrorResponse) => {
+
+
+          // =============================================
+          // Only Handle Unauthorized
+          // =============================================
+
+          if (error.status !== 401) {
+
+            return throwError(
+              () => error
+            );
+
+          }
+
+
+          console.log(
+            'Access token expired/invalid.'
+          );
+
+          console.log(
+            'Attempting token refresh...'
+          );
+
+
+          // =============================================
+          // Refresh Token
+          // =============================================
+
+          return authService
+
+            .refreshToken()
+
+            .pipe(
+
+              switchMap(
+                response => {
+
+
+                  // -------------------------------------
+                  // Get New Access Token
+                  // -------------------------------------
+
+                  const newAccessToken =
+                    response.accessToken;
+
+
+                  if (!newAccessToken) {
+
+                    console.error(
+                      'No new access token received.'
+                    );
+
+
+                    authService.logout();
+
+                    router.navigate([
+                      '/auth/login'
+                    ]);
+
+
+                    return throwError(
+                      () =>
+                        new Error(
+                          'No access token returned.'
+                        )
+                    );
+
+                  }
+
+
+                  // -------------------------------------
+                  // Retry Original Request
+                  // -------------------------------------
+
+                  const retryRequest =
+                    req.clone({
+
+                      setHeaders: {
+
+                        Authorization:
+                          `Bearer ${newAccessToken}`
+
+                      }
+
+                    });
+
+
+                  console.log(
+                    'Retrying original request with new token...'
+                  );
+
+
+                  return next(
+                    retryRequest
+                  );
+
+                }
+
+              ),
+
+
+              // =========================================
+              // Refresh Failed
+              // =========================================
+
+              catchError(
+                refreshError => {
+
+                  console.error(
+                    'Unable to refresh access token:',
+                    refreshError
+                  );
+
+
+                  /*
+                   * Refresh token is no longer valid.
+                   *
+                   * NOW logout.
+                   */
+
+                  authService.logout();
+
+
+                  router.navigate([
+                    '/auth/login'
+                  ]);
+
+
+                  return throwError(
+                    () => refreshError
+                  );
+
+                }
+
+              )
+
+            );
+
+        }
+
+      )
+
+    );
 
 };
