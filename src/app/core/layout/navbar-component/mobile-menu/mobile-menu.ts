@@ -2,7 +2,6 @@ import {
   Component,
   EventEmitter,
   Output,
-  OnInit,
   inject,
   computed,
   signal
@@ -37,7 +36,7 @@ interface NavLink {
   templateUrl: './mobile-menu.html',
   styleUrl: './mobile-menu.css'
 })
-export class MobileMenuComponent implements OnInit {
+export class MobileMenuComponent {
 
   // =====================================================
   // Output
@@ -148,17 +147,17 @@ export class MobileMenuComponent implements OnInit {
   // Initialization
   // =====================================================
 
-  ngOnInit(): void {
-
-    this.loadCurrentUser();
-
-  }
 
 
   // =====================================================
   // Load Current User
   // =====================================================
 
+  constructor() {
+    this.loadCurrentUser();
+
+  }
+  
   private loadCurrentUser(): void {
 
     this.userService
