@@ -8,15 +8,32 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 import {
+  BehaviorSubject,
   catchError,
+  filter,
+  finalize,
   switchMap,
+  take,
   throwError
 } from 'rxjs';
 
 import { TokenService } from './services/token-service';
-
 import { AuthService } from './services/auth-service';
 
+
+// =====================================================
+// Refresh State
+// =====================================================
+
+let isRefreshing = false;
+
+const refreshTokenSubject =
+  new BehaviorSubject<string | null>(null);
+
+
+// =====================================================
+// Auth Interceptor
+// =====================================================
 
 export const authInterceptor: HttpInterceptorFn = (
   req,
@@ -39,28 +56,17 @@ export const authInterceptor: HttpInterceptorFn = (
 
   const publicEndpoints = [
 
-    '/login',
-
-    '/register',
-
-    '/forgot-password',
-
-    '/verify-registration-otp',
-
-    '/verify-forgot-password-otp',
-
-    '/resend-otp',
-
-    '/reset-password',
-
-    '/refresh-token'
+    '/api/auth/login',
+    '/api/auth/register',
+    '/api/auth/forgot-password',
+    '/api/auth/verify-registration-otp',
+    '/api/auth/verify-forgot-password-otp',
+    '/api/auth/resend-otp',
+    '/api/auth/reset-password',
+    '/api/auth/refresh-token'
 
   ];
 
-
-  // =====================================================
-  // Check Public Request
-  // =====================================================
 
   const isPublicRequest =
     publicEndpoints.some(endpoint =>
@@ -68,12 +74,9 @@ export const authInterceptor: HttpInterceptorFn = (
     );
 
 
-  /*
-   * Never attach authentication to public
-   * endpoints.
-   *
-   * Especially /refresh-token.
-   */
+  // =====================================================
+  // Public Request
+  // =====================================================
 
   if (isPublicRequest) {
 
@@ -83,21 +86,16 @@ export const authInterceptor: HttpInterceptorFn = (
 
 
   // =====================================================
-  // Get Access Token
+  // Access Token
   // =====================================================
 
   const accessToken =
     tokenService.getAccessToken();
 
 
-  /*
-   * No access token.
-   *
-   * Let the request continue.
-   *
-   * The backend can return 401 if authentication
-   * is required.
-   */
+  // =====================================================
+  // No Token
+  // =====================================================
 
   if (!accessToken) {
 
@@ -107,7 +105,7 @@ export const authInterceptor: HttpInterceptorFn = (
 
 
   // =====================================================
-  // Add Authorization Header
+  // Attach Access Token
   // =====================================================
 
   const authenticatedRequest =
@@ -124,12 +122,10 @@ export const authInterceptor: HttpInterceptorFn = (
 
 
   // =====================================================
-  // Send Request
+  // Request
   // =====================================================
 
-  return next(
-    authenticatedRequest
-  )
+  return next(authenticatedRequest)
 
     .pipe(
 
@@ -138,7 +134,7 @@ export const authInterceptor: HttpInterceptorFn = (
 
 
           // =============================================
-          // Only Handle Unauthorized
+          // Only refresh on 401
           // =============================================
 
           if (error.status !== 401) {
@@ -150,18 +146,74 @@ export const authInterceptor: HttpInterceptorFn = (
           }
 
 
-          console.log(
+          console.warn(
             'Access token expired/invalid.'
           );
 
+
+          // =============================================
+          // Refresh already running
+          // =============================================
+
+          if (isRefreshing) {
+
+            console.log(
+              'Waiting for existing token refresh...'
+            );
+
+
+            return refreshTokenSubject
+
+              .pipe(
+
+                filter(
+                  token => token !== null
+                ),
+
+                take(1),
+
+                switchMap(
+                  newAccessToken => {
+
+                    const retryRequest =
+                      req.clone({
+
+                        setHeaders: {
+
+                          Authorization:
+                            `Bearer ${newAccessToken}`
+
+                        }
+
+                      });
+
+
+                    return next(
+                      retryRequest
+                    );
+
+                  }
+
+                )
+
+              );
+
+          }
+
+
+          // =============================================
+          // Start Refresh
+          // =============================================
+
+          isRefreshing = true;
+
+          refreshTokenSubject.next(null);
+
+
           console.log(
-            'Attempting token refresh...'
+            'Starting refresh token request...'
           );
 
-
-          // =============================================
-          // Refresh Token
-          // =============================================
 
           return authService
 
@@ -174,39 +226,38 @@ export const authInterceptor: HttpInterceptorFn = (
 
 
                   // -------------------------------------
-                  // Get New Access Token
+                  // Validate response
                   // -------------------------------------
 
                   const newAccessToken =
-                    response.accessToken;
+                    response?.accessToken;
 
 
                   if (!newAccessToken) {
 
-                    console.error(
-                      'No new access token received.'
-                    );
-
-
-                    authService.logout();
-
-                    router.navigate([
-                      '/auth/login'
-                    ]);
-
-
-                    return throwError(
-                      () =>
-                        new Error(
-                          'No access token returned.'
-                        )
+                    throw new Error(
+                      'No access token returned by refresh endpoint.'
                     );
 
                   }
 
 
+                  console.log(
+                    'New access token received.'
+                  );
+
+
                   // -------------------------------------
-                  // Retry Original Request
+                  // Notify waiting requests
+                  // -------------------------------------
+
+                  refreshTokenSubject.next(
+                    newAccessToken
+                  );
+
+
+                  // -------------------------------------
+                  // Retry original request
                   // -------------------------------------
 
                   const retryRequest =
@@ -222,11 +273,6 @@ export const authInterceptor: HttpInterceptorFn = (
                     });
 
 
-                  console.log(
-                    'Retrying original request with new token...'
-                  );
-
-
                   return next(
                     retryRequest
                   );
@@ -235,25 +281,17 @@ export const authInterceptor: HttpInterceptorFn = (
 
               ),
 
-
-              // =========================================
-              // Refresh Failed
-              // =========================================
-
               catchError(
                 refreshError => {
 
                   console.error(
-                    'Unable to refresh access token:',
+                    'Refresh token failed:',
                     refreshError
                   );
 
 
-                  /*
-                   * Refresh token is no longer valid.
-                   *
-                   * NOW logout.
-                   */
+                  refreshTokenSubject.next(null);
+
 
                   authService.logout();
 
@@ -269,7 +307,13 @@ export const authInterceptor: HttpInterceptorFn = (
 
                 }
 
-              )
+              ),
+
+              finalize(() => {
+
+                isRefreshing = false;
+
+              })
 
             );
 
